@@ -1,0 +1,160 @@
+scriptencoding utf-8
+" ^^ please leave the above line at the start of the file.
+
+" pathogen
+execute pathogen#infect()
+
+" basic setup
+syntax on
+filetype plugin indent on
+
+" defaults
+set ttyfast
+set number
+set modelines=0
+set nocompatible
+set cursorline
+
+" tabs
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
+" ctrl+N/P for buffer navigation
+set hidden
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprev<CR>
+
+" proper regex handling for search
+nnoremap / /\v
+vnoremap / /\v
+
+" use system-wide clipboard
+set clipboard=unnamed
+
+" enable the mouse
+set mouse=a
+
+" allow 256 color themes
+set t_Co=256
+
+" change leader to ,
+let mapleader=','
+
+" remap ; to :
+nnoremap ; :
+
+" match brackets with <tab>
+nnoremap <tab> %
+vnoremap <tab> %
+
+" search
+set gdefault
+set incsearch
+set showmatch
+set hlsearch
+nnoremap <leader><space> :noh<cr>
+
+" textmate style whitespaces
+set list
+set listchars=tab:▸\ ,eol:¬
+
+" autosave
+" au FocusLost * :wa
+
+" persistent undo
+set undodir=~/.vim/undodir
+set undofile
+
+" remove trailing whitespaces on save
+"autocmd BufWritePre * :%s/\s\+$//e
+
+" move viminfo to ~/.vim/viminfo
+set viminfo='100,n~/.vim/viminfo
+
+" START OF PLUGIN CONFIGURATION
+
+" airline configuration
+set noshowmode
+let g:airline_theme=get(g:, 'airline_theme', 'solarized')
+let g:airline#extensions#tabline#enabled=1
+let g:airline_powerline_fonts=1
+
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_compact=1
+let g:tagbar_iconchars=['▸', '▾']
+let g:tagbar_width=30
+autocmd vimenter * nested TagbarOpen
+
+let g:tagbar_type_r = {
+\ 'ctagstype' : 'r',
+\ 'kinds'     : [
+\   'f:Functions',
+\   'g:GlobalVariables',
+\   'v:FunctionVariables',
+\ ]
+\}
+
+let g:tagbar_type_markdown = {
+\ 'ctagstype' : 'markdown',
+\ 'kinds' : [
+\   'h:Heading_L1',
+\   'i:Heading_L2',
+\   'k:Heading_L3'
+\ ]
+\}
+
+" NERDTree
+map <C-k> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
+let NERDTreeWinSize=30
+" autocmd vimenter * if !argc() | NERDTree | endif
+autocmd vimenter * NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
+" let g:NERDTreeDirArrows=0
+
+" use solarized theme
+syntax enable
+set background=dark
+colorscheme solarized
+
+" add proper sign column and number line colors
+exe "hi! SignColumn ctermfg=10 ctermbg=0"
+exe "hi! LineNr     ctermfg=10 ctermbg=0"
+
+" set gui font
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+
+" rainbow parentheses config
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\ 'ctermfgs': ['darkblue', 'darkgrey', 'darkmagenta', 'darkcyan'],
+\ 'operators': '_,_',
+\ 'parentheses': [['(',')'], ['\[','\]'], ['{','}']],
+\ 'separately': {
+\   '*': {},
+\   'clojure': {
+\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\     'ctermfgs': ['darkblue', 'darkgrey', 'darkmagenta', 'darkcyan', 'darkred', 'darkgreen'],
+\   },
+\   'vim': {
+\     'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
+\   },
+\   'tex': {
+\     'parentheses': [['(',')'], ['\[','\]'], ['\\begin{.*}','\\end{.*}']],
+\   },
+\   'css': 0,
+\   'stylus': 0,
+\   }
+\}
+
+" fireplace
+nnoremap <C-e> :Eval<CR>
+nnoremap E :%Eval<CR>
+

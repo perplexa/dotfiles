@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR=$(pwd)
+
+ignored_file() {
+  for f in "^\.$" "^\.\.$" "^\.git(modules)?$" "\.swp$"; do
+    [[ "$1" =~ $f ]] && return 0
+  done
+  return 1
+}
+
+for i in .*; do
+    ignored_file "$i" && continue
+    source="${DIR}/$i"
+    target="${HOME}/$i"
+    [ ! -e "${target}" ] && ln -s "${source}" "${target}" && echo "${source} -> ${target}"
+done

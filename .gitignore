@@ -1,0 +1,14 @@
+# vim
+.*.swp
+.*.un~
+
+# osx
+.DS_Store
+
+# backups
+*~
+
+# python
+*.pyc
+__pycache__
+
