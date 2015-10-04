@@ -49,6 +49,16 @@ if [[ ! -x `whence -p md5sum` ]]; then
   alias md5sum='md5 -r'
 fi
 
+# kill all chrome tabs
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+# lock screen
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# volume
+alias stfu="osascript -e 'set volume output muted true'"
+alias pumpitup="osascript -e 'set volume 7'"
+
 # rebuild icon cache
 rebuild-icons() {
   sudo find /private/var/folders/ -name com.apple.dock.iconcache -print0 | xargs -0 rm -rf
@@ -59,7 +69,7 @@ rebuild-icons() {
 }
 
 # network
-alias ips='ifconfig -a | perl -nle '\''/(\d+\.\d+\.\d+\.\d+)/ && print $1'\'''
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # Imgur upload. API key: http://imgur.com/register/api_anon
