@@ -67,11 +67,11 @@ imgur() { curl -F "image=@$1" -H "Authorization: Client-ID ${IMGUR_API_TOKEN}" h
 
 # screen shortcuts
 screenify() { screen -dmSADRU $1 $@; }
-alias irssi='screenify irssi'
-alias rtorrent='screenify rtorrent'
 
 # tmux
 tmuxify() { tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 "$@" }
+alias irssi='tmuxify irssi'
+alias rtorrent='tmuxify rtorrent'
 
 # aliases
 alias i='irssi'
