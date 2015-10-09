@@ -40,7 +40,7 @@ alias xphp='PHP_IDE_CONFIG="serverName=trunk.localhost" XDEBUG_CONFIG="idekey=XD
 
 # dev aliases
 alias gensslcert='openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
-alias pp-nlbr='pbpaste | sed -e $'\''s/\{lnbr\}/\\\n/g'\'''
+alias pp-nlbr='pbpaste | sed -E -e $'\''s/\{lnbr\}/\\\n/g'\'' -e '\''s/(^|\n) +/\1    /g'\'''
 
 # osx aliases
 alias fixfinder='defaults write com.apple.Finder AppleShowAllFiles YES'
