@@ -73,6 +73,10 @@ set undofile
 " move viminfo to ~/.vim/viminfo
 set viminfo='100,n~/.vim/viminfo
 
+" replace trailing whitespaces with F5
+" see http://vim.wikia.com/wiki/Remove_unwanted_spaces
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
 " START OF PLUGIN CONFIGURATION
 
 " airline configuration
@@ -111,8 +115,10 @@ map <C-k> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeMinimalUI=1
 let NERDTreeWinSize=30
+let NERDTreeHijackNetrw=0
 " autocmd vimenter * if !argc() | NERDTree | endif
 autocmd vimenter * NERDTree
+autocmd vimenter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
