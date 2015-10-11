@@ -73,9 +73,12 @@ set undofile
 " move viminfo to ~/.vim/viminfo
 set viminfo='100,n~/.vim/viminfo
 
-" replace trailing whitespaces with F5
+" replace trailing whitespaces with <leader>ss
 " see http://vim.wikia.com/wiki/Remove_unwanted_spaces
-nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <silent><leader>ss :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" save file as root
+command W :w !sudo tee % > /dev/null
 
 " START OF PLUGIN CONFIGURATION
 
@@ -118,7 +121,7 @@ let NERDTreeWinSize=30
 let NERDTreeHijackNetrw=0
 " autocmd vimenter * if !argc() | NERDTree | endif
 autocmd vimenter * NERDTree
-autocmd vimenter * wincmd p
+autocmd vimenter * wincmd p " select previous window after spawning nerdtree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
