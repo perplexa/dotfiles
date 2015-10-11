@@ -1,0 +1,50 @@
+# change working directory to the top-most finder window path
+function cdf() {
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+}
+
+# create a data URL from a file
+function dataurl() {
+    local mimeType=$(file -b --mime-type "$1");
+    if [[ $mimeType == text/* ]]; then
+        mimeType="${mimeType};charset=utf-8";
+    fi
+    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
+}
+
+# imgur upload. API key: http://imgur.com/register/api_anon
+imgur() {
+  curl -F "image=@$1" -H "Authorization: Client-ID ${IMGUR_API_TOKEN}" https://api.imgur.com/3/image | sed 's/\\//g' | egrep -o 'http:[^"]+' | tee >(pbcopy);
+}
+
+# creates or reattaches to a named screen session based on the application name
+screenify() {
+  screen -dmSADRU $1 $@;
+}
+
+# creates or reattaches to a named tmux session based on the application name
+tmuxify() {
+  tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 "$@"
+}
+
+# add more dirs to $PATH
+pathadd() {
+  [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"
+}
+
+# rebuild osx icon cache
+rebuild-icons() {
+  sudo find /private/var/folders/ -name com.apple.dock.iconcache -print0 | xargs -0 rm -rf
+  sudo find /private/var/folders/ -name com.apple.iconservices -print0 | xargs -0 rm -rf
+  sudo rm -rf /Library/Caches/com.apple.iconservices.store
+  killall Finder
+  killall Dock
+}
+
+# start a http server from a directory, optionally specifying the port
+function server() {
+    local port="${1:-8000}";
+    sleep 1 && open "http://localhost:${port}/" &
+    python -c $'import SimpleHTTPServer;\nm = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nm[""] = "text/plain";\nfor k, v in m.items():\n\tm[k]=v+";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
+}
+

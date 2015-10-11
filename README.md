@@ -13,3 +13,8 @@ Run `./bin/ln-dotfiles` from a directory, which includes the dotfiles, which wil
 ## Screenshot
 
 ![Screenshot](https://i.imgur.com/vImHcBG.png)
+
+## Special Thanks
+
+* [Mathias Bynens](https://mathiasbynens.be) for his [dotfiles](https://github.com/mathiasbynens/dotfiles).
+
