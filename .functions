@@ -1,5 +1,5 @@
 # calculator
-function calc() {
+calc() {
     local result="";
     result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
     if [[ "$result" == *.* ]]; then
@@ -11,12 +11,12 @@ function calc() {
 }
 
 # change working directory to the top-most finder window path
-function cdf() {
+cdf() {
 	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
 # create a data URL from a file
-function dataurl() {
+dataurl() {
     local mimeType=$(file -b --mime-type "$1");
     if [[ $mimeType == text/* ]]; then
         mimeType="${mimeType};charset=utf-8";
