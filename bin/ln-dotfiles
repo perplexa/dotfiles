@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 DIR=$(pwd)
 
@@ -13,5 +13,5 @@ for i in .*; do
     ignored_file "$i" && continue
     source="${DIR}/$i"
     target="${HOME}/$i"
-    [ ! -e "${target}" ] && ln -s "${source}" "${target}" && echo "${source} -> ${target}"
+    ([ ! -e "${target}" ] || (printf "\r%-$(expr $(tput cols) - 1)s" "Overwrite ${target}? Y/N" && [ "$(read -eq)" = "y" ] && rm -r "${target}")) && ln -s "${source}" "${target}" && echo "\r${source} -> ${target}"
 done
