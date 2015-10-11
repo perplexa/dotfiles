@@ -53,6 +53,11 @@ rebuild-icons() {
   killall Dock
 }
 
+# shrink a file or directory
+shrink() {
+  [ -n "$*" ] && tar --xz -cvf "$1.tar.xz" "$@"
+}
+
 # start a http server from a directory, optionally specifying the port
 function server() {
     local port="${1:-8000}";
