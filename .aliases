@@ -10,7 +10,6 @@ alias rtorrent='tmuxify rtorrent'
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-
 # other useful aliases
 alias p='ssh -p ${PPX_SERVER_PORT} ${PPX_SERVER_HOST}'
 alias rand-pwd='LC_ALL=C tr -cd a-zA-Z0-9 < /dev/urandom | fold -w 32 | head -n 1'
