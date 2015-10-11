@@ -1,3 +1,15 @@
+# calculator
+function calc() {
+    local result="";
+    result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
+    if [[ "$result" == *.* ]]; then
+        printf "$result" | sed -e 's/^\./0./;s/^-\./-0./;s/0*$//;s/\.$//';
+    else
+        printf "$result";
+    fi;
+    printf "\n";
+}
+
 # change working directory to the top-most finder window path
 function cdf() {
 	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
