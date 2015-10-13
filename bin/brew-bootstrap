@@ -21,5 +21,6 @@ brew install ctags
 brew install vim
 
 # more useful packages
+brew install dark-mode
 brew install nmap
 
