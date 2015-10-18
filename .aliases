@@ -1,4 +1,5 @@
 # shortcuts
+alias f='open .'
 alias i='irssi'
 alias v='vim'
 
