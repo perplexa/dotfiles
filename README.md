@@ -2,7 +2,7 @@
 
 ## Requirements
 
-The following requirements must be met for these dotfiles .
+The following requirements must be met for these dotfiles.
 
 * [oh-my-zsh][1]
 * [Powerline][2] fonts
