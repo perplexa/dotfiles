@@ -20,7 +20,14 @@ brew install tmux
 brew install ctags
 brew install vim
 
+# network
+brew install netcat
+brew install nmap
+
+# media
+brew install ffmpeg
+brew install youtube-dl
+
 # more useful packages
 brew install dark-mode
-brew install nmap
 
