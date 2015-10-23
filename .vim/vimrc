@@ -33,8 +33,16 @@ vnoremap / /\v
 " use system-wide clipboard
 set clipboard=unnamed
 
-" enable the mouse
-set mouse=a
+" enable the mouse and xterm style keys
+set mouse+=a
+if &term =~ '^screen'
+  set ttymouse=xterm2
+  execute "set <xUp>=\e[1;*A"
+  execute "set <xDown>=\e[1;*B"
+  execute "set <xRight>=\e[1;*C"
+  execute "set <xLeft>=\e[1;*D"
+  map <Esc>[B <Down>
+endif
 
 " allow 256 color themes
 set t_Co=256
