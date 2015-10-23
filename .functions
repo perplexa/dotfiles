@@ -24,7 +24,7 @@ calc() {
 
 # change working directory to the top-most finder window path
 cdf() {
-	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
+    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
 # create a data URL from a file
