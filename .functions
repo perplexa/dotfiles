@@ -2,7 +2,7 @@
 audiotrack() {
   if [ -e "$1" ]; then
     local ext=$(ffprobe -loglevel quiet -show_entries stream=index,codec_name,codec_type -of compact -i "$1" | grep 'codec_type=audio' | sed -e 's/.*codec_name=\([a-z0-9]\+\).*/\1/')
-    local filename=$(basename "$1" | sed 's/[^\.]\+$//')
+    local filename="$(basename "$1" | sed 's/[^\.]\+$//')"
     filename+="$ext"
     ffmpeg -i "$1" -vn -acodec copy "$filename"
   else
