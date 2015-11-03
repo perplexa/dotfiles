@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import urllib2
 
 url = 'https://news.ycombinator.com/rss';
-limit = 10
+limit = 30
 
 data = urllib2.urlopen(url).read()
 tree = ET.fromstring(data).findall('channel/item')
@@ -13,7 +13,7 @@ tree = ET.fromstring(data).findall('channel/item')
 tree = itertools.islice(tree, 0, limit, 1)
 
 for child in tree:
-    print "[\033[38;5;154m+\033[0m] \033[1m{0}\033[0m\n    {1}".format(
+    print "[\033[38;5;64m+\033[0m] \033[38;5;166m{0}\033[0m\n    \033[38;5;240m{1}\033[0m".format(
             child.find('title').text.encode('utf8'),
             child.find('link').text.encode('utf8'))
 
