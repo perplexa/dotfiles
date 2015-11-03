@@ -82,8 +82,8 @@ path_section_color_bar=${green}
 path_section_color_text=${base03}
 
 #git_section_color_bar=${cyan}
-git_section_color_bar=${brown}
-git_section_color_text=${base03}
+git_section_color_bar=${base02}
+git_section_color_text=${base0}
 
 # Color markup
 user_section_markup_bar=%F{${user_section_color_text}}%K{${user_section_color_bar}}
