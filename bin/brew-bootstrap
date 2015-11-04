@@ -30,4 +30,5 @@ brew install youtube-dl
 
 # more useful packages
 brew install dark-mode
+brew install p7zip
 
