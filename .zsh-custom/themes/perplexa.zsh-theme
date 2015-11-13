@@ -21,8 +21,7 @@ xterm* | screen*)
     ;;
 esac
 
-# the unchanging reality amidst and beyond the world
-aum=$'\xe0\xa4\x93\xe0\xa4\xae\xe0\xa5\x8d'
+ppx=$'\xe5\x85\x88\xe7\x94\x9f'
 
 # Color defines
 black=000
@@ -99,7 +98,7 @@ git_section_markup_arrow=%F{${git_section_color_bar}}%k
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
   user_section_content="${emoji} %n@%m"
 elif [ "$USER" = "perplexa" ]; then
-  user_section_content="${emoji} ${aum}"
+  user_section_content="${emoji} ${ppx}"
 else
   user_section_content="${emoji} %n"
 fi
