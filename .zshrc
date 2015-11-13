@@ -15,7 +15,7 @@ COMPLETION_WAITING_DOTS='true'
 ZSH=~/.oh-my-zsh
 ZSH_CUSTOM=~/.zsh-custom
 ZSH_THEME=perplexa
-plugins=(git svn themes vagrant perl python brew zsh-syntax-highlighting)
+plugins=(brew git nmap perl python sudo themes torrent vagrant zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # use gnu dircolors
