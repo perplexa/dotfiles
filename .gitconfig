@@ -26,6 +26,9 @@
     # status
     s = "status"
 
+    # delete last commit (many with e.g. HEAD~2 for 2 commits)
+    dc = "reset --hard HEAD^"
+
     # delete merged branches
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
