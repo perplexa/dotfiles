@@ -10,6 +10,9 @@ audiotrack() {
   fi
 }
 
+# calculate a blob hash in git object-hash fashion
+blob-hash() { printf "blob ${#1}\0${1}" | shasum | awk '{print $1}' }
+
 # calculator
 calc() {
     local result=""
