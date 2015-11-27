@@ -32,6 +32,9 @@
     # delete merged branches
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
+    # delete remote ref
+    dr = "!git push --delete $1"
+
     # find commits by source code
     fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 
@@ -43,6 +46,7 @@
 
     # remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
     # switch to branch; create if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
