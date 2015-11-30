@@ -33,7 +33,7 @@
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
     # delete remote ref
-    dr = "!git push --delete $1"
+    dr = "!d() { git push origin --delete $1; }; d"
 
     # find commits by source code
     fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
