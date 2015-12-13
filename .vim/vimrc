@@ -131,7 +131,7 @@ let NERDTreeHijackNetrw=0
 " autocmd vimenter * if !argc() | NERDTree | endif
 autocmd vimenter * NERDTree
 autocmd vimenter * wincmd p " select previous window after spawning nerdtree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " quit if only nerdtree is only win
 
 let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
 " let g:NERDTreeDirArrows=0
