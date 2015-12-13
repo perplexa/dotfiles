@@ -17,11 +17,12 @@ xterm* | screen*)
 *)
     arrow=">"
     git_icon="git"
-    emoji="\xe2\x98\x81"
+    emoji=$'\xe2\x98\x81' # ascii cloud
     ;;
 esac
 
 ppx=$'\xe5\x85\x88\xe7\x94\x9f'
+snake=$'\xf0\x9f\x90\x8d '
 
 # Color defines
 black=000
@@ -68,12 +69,15 @@ ZSH_THEME_GIT_PROMPT_BEHIND=" ⬇"
 ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
 
 # Style information
-user_section_color_bar=${base02}
-user_section_color_text=${base0}
+pyvenv_section_color_bar=${base02}
+pyvenv_section_color_text=${blue}
 
 if [ "$UID" -eq 0 ]; then
   user_section_color_bar=${base02}
   user_section_color_text=${orange}
+else
+  user_section_color_bar=${base02}
+  user_section_color_text=${base0}
 fi
 
 #path_section_color_bar=${green}
@@ -85,6 +89,8 @@ git_section_color_bar=${base02}
 git_section_color_text=${base0}
 
 # Color markup
+pyvenv_section_markup_bar=%F{${pyvenv_section_color_text}}%K{${pyvenv_section_color_bar}}
+
 user_section_markup_bar=%F{${user_section_color_text}}%K{${user_section_color_bar}}
 user_section_markup_arrow=%F{${user_section_color_bar}}%K{${path_section_color_bar}}
 
@@ -106,14 +112,18 @@ fi
 path_section_content="%1~"
 git_section_content=$'$(git_prompt_info)$(git_prompt_status)'
 
-# Section templates
 user_section="${user_section_markup_bar} ${user_section_content} ${user_section_markup_arrow}${arrow}"
 path_section="${path_section_markup_bar} ${path_section_content} ${path_section_markup_arrow}${arrow}"
 git_section="${git_section_markup_bar} ${git_section_content} ${git_section_markup_arrow}${arrow}"
 reset_colors="%k%f"
 
 # Final prompt compilation
+precmd() {
+  if [ -n "${VIRTUAL_ENV}" ]; then
+    pyvenv_section="${pyvenv_section_markup_bar} ${snake} venv:${VIRTUAL_ENV##*/}"
+  fi
+  print -rP "${pyvenv_section}${user_section}${path_section}${git_section}${reset_colors}"
+}
 
-precmd() { print -rP "${user_section}${path_section}${git_section}${reset_colors}" }
 PROMPT="%F{green}\$${reset_colors} "
 

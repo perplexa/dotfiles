@@ -35,3 +35,6 @@ if [[ ! -x `whence -p md5sum` ]]; then
   alias md5sum='md5 -r'
 fi
 
+# disable python virtualenv prompt
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
