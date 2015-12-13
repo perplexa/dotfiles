@@ -9,9 +9,6 @@ brew install findutils
 brew install moreutils
 brew install gnu-sed --with-default-names
 
-# cask
-brew install caskroom/cask/brew-cask
-
 # tmux
 brew install reattach-to-user-namespace
 brew install tmux
@@ -31,4 +28,17 @@ brew install youtube-dl
 # more useful packages
 brew install dark-mode
 brew install p7zip
+
+# cask
+brew install caskroom/cask/brew-cask
+
+# casks
+brew cask install anki
+brew cask install chronicle
+brew cask install cog
+brew cask install mediathekview
+brew cask install spek
+brew cask install steam
+brew cask install transmission
+brew cask install vlc
 
