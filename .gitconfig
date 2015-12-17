@@ -3,7 +3,7 @@
     followTags = true
 
 [help]
-    autocorrect = 1
+    autocorrect = 0
 
 [core]
     excludesfile = ~/.gitignore
@@ -25,6 +25,9 @@
 
     # status
     s = "status"
+
+    # push all local heads to origin
+    ph = "push --force --tags origin 'refs/heads/*'"
 
     # delete last commit (many with e.g. HEAD~2 for 2 commits)
     dc = "reset --hard HEAD^"
