@@ -18,6 +18,10 @@ ZSH_THEME=perplexa
 plugins=(brew git nmap perl python sudo themes torrent vagrant zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
+# bigger history
+HISTSIZE=10000000
+SAVEHIST=10000000
+
 # use gnu dircolors
 if [[ -x `whence -p gdircolors` ]];
   then alias dircolors='gdircolors'
