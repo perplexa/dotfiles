@@ -36,6 +36,7 @@ brew install caskroom/cask/brew-cask
 brew cask install anki
 brew cask install chronicle
 brew cask install cog
+brew cask install kid3
 brew cask install mediathekview
 brew cask install spek
 brew cask install steam
