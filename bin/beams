@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import re, sys
+
+def normalize(values, scale=7):
+    low, high = min(values), max(values)
+    values = map(lambda v: (v - low + 1) / (high - low + 1) * scale, values)
+    return values
+
+def bar(size):
+    return chr(9601 + int(round(size)))
+
+def beams(values):
+    values = normalize(list(map(float, re.findall('-?\d+(?:\.\d+)?', values))))
+    values = map(bar, values) # \xe2\x96\x81 - \xe2\x96\x88
+    return ''.join(values)
+
+if __name__ == '__main__':
+    print(beams(sys.stdin.read()))
+
