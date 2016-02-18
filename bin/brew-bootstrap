@@ -27,7 +27,13 @@ brew install youtube-dl
 
 # more useful packages
 brew install dark-mode
+
+# pack
 brew install p7zip
+brew install unrar
+
+# crypto
+brew install gnupg
 
 # cask
 brew install caskroom/cask/brew-cask
