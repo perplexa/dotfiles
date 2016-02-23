@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+# ❤ for data
+# Copyright (C) perplexa 2016
+
+import math
+import random
+import time
+import sys
+
+LENGTH = 4
+
+def entropy(i):
+    c = dict()
+    for x in i:
+        c[x] = c.get(x, 0) + 1
+    e = 0
+    l = len(i)
+    for x in c:
+        p = c[x] / l
+        e -= p * math.log(p) / math.log(2)
+    return e
+
+if __name__ == '__main__':
+    with open('/usr/share/dict/words') as fp:
+        s = time.time()
+        words = fp.read().split()
+        e = time.time()
+        print('Loaded {} words in {:.2f} seconds.'.format(len(words), e - s),
+                file=sys.stderr)
+
+        password = list()
+        wlen = len(words)
+        for _ in range(LENGTH):
+            csprn = int(random.SystemRandom().random() * wlen)
+            password.append(words[csprn])
+
+        print('Your random password is: {}'.format(' '.join(password)))
+        print('Entropy: {}'.format(entropy(''.join(password))),
+                file=sys.stderr)
+
