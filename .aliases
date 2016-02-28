@@ -1,10 +1,10 @@
 # shortcuts
 alias f='open .'
-alias i='irssi'
+alias i='weechat'
 alias v='vim'
 
 # always start some applications in tmux
-alias irssi='tmuxify irssi'
+alias weechat='tmuxify weechat'
 alias rtorrent='tmuxify rtorrent'
 
 # network

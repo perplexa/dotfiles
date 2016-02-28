@@ -36,6 +36,10 @@ brew install unrar
 brew install gnupg
 brew install keybase
 
+# irc
+brew install weechat --with-aspell --with-curl --with-python \
+                     --with-perl --with-ruby --with-lua
+
 # cask
 brew install caskroom/cask/brew-cask
 
