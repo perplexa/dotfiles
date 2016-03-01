@@ -22,7 +22,7 @@ brew install netcat
 brew install nmap
 
 # media
-brew install ffmpeg
+brew install ffmpeg --with-libvpx
 brew install youtube-dl
 
 # more useful packages

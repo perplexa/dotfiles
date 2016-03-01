@@ -1,7 +1,7 @@
 # use ffmpeg to extract an audio track from a container
 audiotrack() {
   if [ -e "$1" ]; then
-    local ext=$(ffprobe -loglevel quiet -show_entries stream=index,codec_name,codec_type -of compact -i "$1" | grep 'codec_type=audio' | sed -e 's/.*codec_name=\([a-z0-9]\+\).*/\1/')
+    local ext="$(ffprobe -loglevel quiet -show_entries stream=index,codec_name,codec_type -of compact -i "$1" | grep 'codec_type=audio' | sed -e 's/.*codec_name=\([a-z0-9]\+\).*/\1/')"
     local filename="$(basename "$1" | sed 's/[^\.]\+$//')"
     filename+="$ext"
     ffmpeg -i "$1" -vn -acodec copy "$filename"
@@ -12,6 +12,21 @@ audiotrack() {
 
 # calculate a blob hash in git object-hash fashion
 blob-hash() { printf "blob ${#1}\0${1}" | shasum | awk '{print $1}' }
+
+# webm converter (vp8, no sound)
+wobble() {
+  if [ -e "$1" ]; then
+    # target size in bytes
+    local targetsize=8388608
+    local duration="$(ffprobe -loglevel quiet -show_entries format=duration -of compact -i "$1" | cut -d= -f2)"
+    local filename="$(basename "$1" | sed 's/[^\.]\+$/webm/')"
+    # convert size from KB to Kbit, use 5% overhead buffer
+    local bitrate="$(printf "scale=10; $targetsize * 8 * 0.95 / $duration\n" | bc --mathlib)"
+    ffmpeg -i "$1" -c:v libvpx -b:v "$bitrate" -crf 33 -threads 8 -speed 4 -auto-alt-ref 1 -lag-in-frames 25 -an -f webm "$filename"
+  else
+    echo "Invalid file parameter. Usage: $0 media-file"
+  fi
+}
 
 # calculator
 calc() {
