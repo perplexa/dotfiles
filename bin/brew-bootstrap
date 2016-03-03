@@ -44,10 +44,10 @@ brew install weechat --with-aspell --with-curl --with-python \
 brew install caskroom/cask/brew-cask
 
 # casks
-brew cask install anki
 brew cask install chronicle
 brew cask install cog
 brew cask install kid3
+brew cask install licecap
 brew cask install macpass
 brew cask install mediathekview
 brew cask install spek
