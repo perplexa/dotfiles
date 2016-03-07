@@ -10,5 +10,5 @@ ignored_file() {
 }
 
 for i in .*; do
-    ignored_file "$i" || (([ ! -e "${HOME}/$i" ] || (printf "\r%-$(expr $(tput cols) - 1)s" "Overwrite ${HOME}/$i? Y/N" && [ "$(read -eq)" = "y" ] && rm -r "${HOME}/$i")) && ln -s "${DIR}/$i" "${HOME}/$i" && echo "\r${DIR}/$i -> ${HOME}/$i")
+    ignored_file "$i" || (([ ! -e "${HOME}/$i" ] || (printf "\r%-$(expr $(tput cols) - 1)s" "Overwrite ${HOME}/$i? Y/N" && ([[ "$*" = *"-yes"* ]] || [ "$(read -eq)" = "y" ]) && rm -r "${HOME}/$i")) && ln -s "${DIR}/$i" "${HOME}/$i" && echo "\r${DIR}/$i -> ${HOME}/$i")
 done
