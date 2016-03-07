@@ -44,6 +44,7 @@ brew install weechat --with-aspell --with-curl --with-python \
 brew install caskroom/cask/brew-cask
 
 # casks
+brew cask install bittorrent-sync
 brew cask install chronicle
 brew cask install cog
 brew cask install kid3
