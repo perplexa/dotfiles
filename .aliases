@@ -32,6 +32,7 @@ alias xdbg_tunnel='ssh -vvv -N -g -R 9000:127.0.0.1:9000 helios.local' # then ht
 alias xphp='PHP_IDE_CONFIG="serverName=trunk.localhost" XDEBUG_CONFIG="idekey=XDEBUG_PHPSTORM" php'
 
 # osx aliases
+alias fixspotlight='sudo mdutil -i off / && sudo mdutil -i on /'
 alias fixfinder='defaults write com.apple.Finder AppleShowAllFiles YES'
 alias fixlauncher='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -seed'
 alias battery='ioreg -k LegacyBatteryInfo | grep LegacyBatteryInfo | sed '\''s/.*{\(.*\)}/\1/;s/,/=/g'\'' | awk -F= '\''{print 100*$8/$6}'\'' | xargs printf '\''%.2f'\'''
