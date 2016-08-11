@@ -23,6 +23,7 @@ alias s42='cd ${S42_HOME}'
 alias s42-gw='ssh-add && ssh -A ${S42_GW_UID}'
 
 # dev aliases
+alias play-forward='ssh -vvv -N -g -L 9000:127.0.0.1:9000 vagrant@192.168.69.69'
 alias gensslcert='openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
 alias pp-nlbr='pbpaste | sed -e $'\''s/\{lnbr\}/\\\n/g'\'' -e '\''s/\(^\|\n\) \+/\1    /g'\'''
 
