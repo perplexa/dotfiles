@@ -22,7 +22,7 @@ brew install netcat
 brew install nmap
 
 # media
-brew install ffmpeg --with-libvpx
+brew install ffmpeg --with-libvpx --with-libvorbis --with-libopus
 brew install youtube-dl
 
 # more useful packages
@@ -51,8 +51,10 @@ brew cask install kid3
 brew cask install licecap
 brew cask install macpass
 brew cask install mediathekview
+brew cask install openemu
 brew cask install spek
 brew cask install steam
-brew cask install transmission
+brew cask install vagrant
 brew cask install vlc
+brew cask install yed
 
