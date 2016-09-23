@@ -25,6 +25,9 @@ brew install nmap
 brew install ffmpeg --with-libvpx --with-libvorbis --with-libopus
 brew install youtube-dl
 
+# development
+brew install jq
+
 # more useful packages
 brew install dark-mode
 
