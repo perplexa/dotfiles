@@ -45,6 +45,12 @@ cdf() {
     cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
+# open url in chrome incognito tab and bring to front
+chrome-incognito() {
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --incognito -- "$1"
+  osascript -e 'tell application "Google Chrome" to activate'
+}
+
 # create a data URL from a file
 dataurl() {
     local mimeType=$(file -b --mime-type "$1")
