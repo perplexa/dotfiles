@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# key repeat >9000
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+
+# complete keyboard control
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+# enable keyrepeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+
