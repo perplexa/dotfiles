@@ -47,7 +47,6 @@ brew install weechat --with-aspell --with-curl --with-python \
 brew install caskroom/cask/brew-cask
 
 # casks
-brew cask install bittorrent-sync
 brew cask install chronicle
 brew cask install cog
 brew cask install kid3
@@ -55,6 +54,7 @@ brew cask install licecap
 brew cask install macpass
 brew cask install mediathekview
 brew cask install openemu
+brew cask install resilio-sync
 brew cask install spek
 brew cask install steam
 brew cask install vagrant
