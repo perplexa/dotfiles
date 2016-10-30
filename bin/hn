@@ -1,19 +1,23 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import itertools
 import xml.etree.ElementTree as ET
-import urllib2
+from urllib.request import urlopen
+
+output = ('[\033[38;5;64m+\033[0m]'
+          ' \033[38;5;166m{title}\033[0m'
+          '\n    \033[38;5;240m{link}\033[0m')
 
 url = 'https://news.ycombinator.com/rss';
 limit = 30
 
-data = urllib2.urlopen(url).read()
+data = urlopen(url).read()
 tree = ET.fromstring(data).findall('channel/item')
 
 tree = itertools.islice(tree, 0, limit, 1)
 
 for child in tree:
-    print "[\033[38;5;64m+\033[0m] \033[38;5;166m{0}\033[0m\n    \033[38;5;240m{1}\033[0m".format(
-            child.find('title').text.encode('utf8'),
-            child.find('link').text.encode('utf8'))
+    print(output.format(
+        title=child.find('title').text,
+        link=child.find('link').text))
 
