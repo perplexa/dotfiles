@@ -56,6 +56,9 @@
     # switch to branch; create if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
+    # fetch remote changes and fast-forward merge, otherwise rebase
+    up = "!git fetch && (git merge --ff-only || git rebase --preserve-merges)"
+
 # color settings
 [color]
     branch = auto
