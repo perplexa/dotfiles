@@ -14,7 +14,7 @@ DISABLE_AUTO_UPDATE='true'
 COMPLETION_WAITING_DOTS='true'
 ZSH=~/.oh-my-zsh
 ZSH_CUSTOM=~/.zsh-custom
-ZSH_THEME=perplexa
+ZSH_THEME=theunraveler
 plugins=(git nmap perl python sudo themes torrent vagrant zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
@@ -26,7 +26,7 @@ SAVEHIST=10000000
 if [[ -x `whence -p gdircolors` ]];
   then alias dircolors='gdircolors'
 fi
-eval `dircolors ~/.dir_colors`
+eval `dircolors ~/.gruvbox.dircolors`
 
 # enable ls colors for zsh completion
 if [[ -x `whence -p gls` ]];
@@ -40,5 +40,5 @@ if [[ ! -x `whence -p md5sum` ]]; then
 fi
 
 # disable python virtualenv prompt
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+# export VIRTUAL_ENV_DISABLE_PROMPT=1
 

@@ -90,37 +90,72 @@ nnoremap <silent><leader>ss :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl
 command W :w !sudo tee % > /dev/null
 
 " START OF PLUGIN CONFIGURATION
-
-" airline configuration
+" lightline
 set noshowmode
-let g:airline_theme=get(g:, 'airline_theme', 'base16')
-let g:airline#extensions#tabline#enabled=1
-let g:airline_powerline_fonts=1
 
-" Tagbar
-nmap <F8> :TagbarToggle<CR>
-let g:tagbar_compact=1
-let g:tagbar_iconchars=['▸', '▾']
-let g:tagbar_width=30
-autocmd vimenter * nested TagbarOpen
+function! LightlineModified()
+  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
 
-let g:tagbar_type_r = {
-\ 'ctagstype' : 'r',
-\ 'kinds'     : [
-\   'f:Functions',
-\   'g:GlobalVariables',
-\   'v:FunctionVariables',
-\ ]
-\}
+function! LightlineReadonly()
+  return &ft !~? 'help' && &readonly ? 'x' : ''
+endfunction
 
-let g:tagbar_type_markdown = {
-\ 'ctagstype' : 'markdown',
-\ 'kinds' : [
-\   'h:Heading_L1',
-\   'i:Heading_L2',
-\   'k:Heading_L3'
-\ ]
-\}
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ expand('%:t') =~ 'NERD_tree' ? '' :
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|NERD' && &ft !~? 'head' && exists('*fugitive#head')
+      let mark = "\ue0a0 "
+      let branch = fugitive#head()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  return expand('%:t') =~ 'NERD_tree' ? 'NERDTree' : winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'LightlineModified',
+      \   'readonly': 'LightlineReadonly',
+      \   'fugitive': 'LightlineFugitive',
+      \   'filename': 'LightlineFilename',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'mode': 'LightlineMode',
+      \ },
+      \ 'separator': { 'left': "", 'right': "" },
+      \ 'subseparator': { 'left': "|", 'right': "|" }
+      \ }
 
 " NERDTree
 map <C-k> :NERDTreeToggle<CR>
@@ -136,17 +171,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
 " let g:NERDTreeDirArrows=0
 
-" use solarized theme
+" theme
 syntax enable
-set background=dark
-colorscheme solarized
-
-" add proper sign column and number line colors
-exe "hi! SignColumn ctermfg=10 ctermbg=0"
-exe "hi! LineNr     ctermfg=10 ctermbg=0"
-
-" set gui font
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+colorscheme gruvbox
 
 " rainbow parentheses config
 let g:rainbow_active = 1
@@ -171,8 +198,4 @@ let g:rainbow_conf = {
 \   'stylus': 0,
 \   }
 \}
-
-" fireplace
-nnoremap <C-e> :Eval<CR>
-nnoremap E :%Eval<CR>
 
