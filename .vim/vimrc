@@ -173,6 +173,7 @@ let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
 
 " theme
 syntax enable
+set background=dark
 colorscheme gruvbox
 
 " rainbow parentheses config
