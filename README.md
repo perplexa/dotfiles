@@ -17,9 +17,9 @@ Run `./bin/ln-dotfiles` from a directory, which includes the dotfiles, which wil
 
 ## Screenshot
 
-![Screenshot](https://i.imgur.com/vImHcBG.png)
+![Screenshot](http://i.imgur.com/fbukCnx.jpg)
 
 
 [1]: https://github.com/robbyrussell/oh-my-zsh
 [2]: https://github.com/morhetz/gruvbox-contrib
-
+ 
