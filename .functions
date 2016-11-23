@@ -62,7 +62,16 @@ dataurl() {
 
 # imgur upload. API key: http://imgur.com/register/api_anon
 imgur() {
-  curl -F "image=@$1" -H "Authorization: Client-ID ${IMGUR_API_TOKEN}" https://api.imgur.com/3/image | sed 's/\\//g' | egrep -o 'http:[^"]+' | tee >(pbcopy)
+  curl -F "image=@${1:--}" -H "Authorization: Client-ID ${IMGUR_API_TOKEN}" https://api.imgur.com/3/image | sed 's/\\//g' | egrep -o 'http:[^"]+' | tee >(pbcopy)
+}
+
+# ptpb.pw paste
+pb() {
+  curl -sF "c=@${1:--}" -w '%{redirect_url}' 'https://ptpb.pw/?r=1' -o /dev/stderr | pbcopy
+}
+
+pbd() {
+  curl -X DELETE "https://ptpb.pw/$1"
 }
 
 # creates or reattaches to a named screen session based on the application name
