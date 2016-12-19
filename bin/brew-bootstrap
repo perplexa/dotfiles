@@ -51,6 +51,7 @@ brew cask install chronicle
 brew cask install cog
 brew cask install kid3
 brew cask install licecap
+brew cask install macdown
 brew cask install macpass
 brew cask install mediathekview
 brew cask install openemu
