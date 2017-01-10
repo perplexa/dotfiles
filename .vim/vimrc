@@ -76,11 +76,15 @@ set listchars=tab:▸\ ,eol:¬
 set undodir=~/.vim/undodir
 set undofile
 
-" remove trailing whitespaces on save
-"autocmd BufWritePre * :%s/\s\+$//e
+" swap files
+set dir=~/.vim/swap
+set swapfile
 
 " move viminfo to ~/.vim/viminfo
 set viminfo='100,n~/.vim/viminfo
+
+" remove trailing whitespaces on save
+"autocmd BufWritePre * :%s/\s\+$//e
 
 " replace trailing whitespaces with <leader>ss
 " see http://vim.wikia.com/wiki/Remove_unwanted_spaces
