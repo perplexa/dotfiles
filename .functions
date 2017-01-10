@@ -13,21 +13,6 @@ audiotrack() {
 # calculate a blob hash in git object-hash fashion
 blob-hash() { printf "blob ${#1}\0${1}" | shasum | awk '{print $1}' }
 
-# webm converter (vp8, no sound)
-wobble() {
-  if [ -e "$1" ]; then
-    # target size in bytes
-    local targetsize=8388608
-    local duration="$(ffprobe -loglevel quiet -show_entries format=duration -of compact -i "$1" | cut -d= -f2)"
-    local filename="$(basename "$1" | sed 's/[^\.]\+$/webm/')"
-    # convert size from KB to Kbit, use 5% overhead buffer
-    local bitrate="$(printf "scale=10; $targetsize * 8 * 0.95 / $duration\n" | bc --mathlib)"
-    ffmpeg -i "$1" -c:v libvpx -b:v "$bitrate" -crf 33 -threads 8 -speed 4 -auto-alt-ref 1 -lag-in-frames 25 -an -f webm "$filename"
-  else
-    echo "Invalid file parameter. Usage: $0 media-file"
-  fi
-}
-
 # calculator
 calc() {
     local result=""
@@ -65,6 +50,17 @@ imgur() {
   curl -F "image=@${1:--}" -H "Authorization: Client-ID ${IMGUR_API_TOKEN}" https://api.imgur.com/3/image | sed 's/\\//g' | egrep -o 'http:[^"]+' | tee >(pbcopy)
 }
 
+# convert markdown to html using pandoc
+md2html() {
+  local filename="$(basename "$1" | sed 's/[^\.]\+$/html/')"
+  pandoc --from=markdown --to=html --output="$filename" "$1"
+}
+
+# add more dirs to $PATH
+pathadd() {
+  [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"
+}
+
 # ptpb.pw paste
 pb() {
   curl -sF "c=@${1:--}" -w '%{redirect_url}' 'https://ptpb.pw/?r=1' -o /dev/stderr | pbcopy
@@ -72,21 +68,6 @@ pb() {
 
 pbd() {
   curl -X DELETE "https://ptpb.pw/$1"
-}
-
-# creates or reattaches to a named screen session based on the application name
-screenify() {
-  screen -dmSADRU $1 $@;
-}
-
-# creates or reattaches to a named tmux session based on the application name
-tmuxify() {
-  tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 "$@"
-}
-
-# add more dirs to $PATH
-pathadd() {
-  [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"
 }
 
 # rebuild osx icon cache
@@ -98,15 +79,39 @@ rebuild-icons() {
   killall Dock
 }
 
-# shrink a file or directory
-shrink() {
-  [ -n "$*" ] && tar --xz -cvf "$1.tar.xz" "$@"
+# creates or reattaches to a named screen session based on the application name
+screenify() {
+  screen -dmSADRU $1 $@;
 }
 
 # start a http server from a directory, optionally specifying the port
-function server() {
+server() {
     local port="${1:-8000}"
     sleep 1 && open "http://localhost:${port}/" &
     python -c $'import SimpleHTTPServer;\nm = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nm[""] = "text/plain";\nfor k, v in m.items():\n\tm[k]=v+";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
+# shrink a file or directory
+shrink() {
+  [ -n "$*" ] && tar --xz -cvf "$1.tar.xz" "$@"
+}
+
+# creates or reattaches to a named tmux session based on the application name
+tmuxify() {
+  tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 "$@"
+}
+
+# webm converter (vp8, no sound)
+wobble() {
+  if [ -e "$1" ]; then
+    # target size in bytes
+    local targetsize=8388608
+    local duration="$(ffprobe -loglevel quiet -show_entries format=duration -of compact -i "$1" | cut -d= -f2)"
+    local filename="$(basename "$1" | sed 's/[^\.]\+$/webm/')"
+    # convert size from KB to Kbit, use 5% overhead buffer
+    local bitrate="$(printf "scale=10; $targetsize * 8 * 0.95 / $duration\n" | bc --mathlib)"
+    ffmpeg -i "$1" -c:v libvpx -b:v "$bitrate" -crf 33 -threads 8 -speed 4 -auto-alt-ref 1 -lag-in-frames 25 -an -f webm "$filename"
+  else
+    echo "Invalid file parameter. Usage: $0 media-file"
+  fi
+}
