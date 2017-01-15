@@ -39,6 +39,9 @@ if [[ ! -x `whence -p md5sum` ]]; then
   alias md5sum='md5 -r'
 fi
 
+# create vim swap and undodir if they do not exist
+[ ! -d ~/.vim/swap ] && echo mkdir ~/.vim/swap
+[ ! -d ~/.vim/undodir ] && echo mkdir ~/.vim/undodir
+
 # disable python virtualenv prompt
 # export VIRTUAL_ENV_DISABLE_PROMPT=1
-

@@ -1,6 +1,6 @@
 # vim
-.*.swp
-.*.un~
+.vim/swap
+.vim/undodir
 
 # osx
 .DS_Store
