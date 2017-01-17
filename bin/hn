@@ -1,2 +1,2 @@
 #!/usr/bin/env python3
-import itertools as i; import xml.etree.ElementTree as ET; from urllib.request import urlopen as u; list(map(lambda c: print('[\033[32m+\033[0m] \033[33m{t} \033[0m\033[37m{l}\033[0m'.format(t=c.find('link').text,l=c.find('link').text)), i.islice(ET.fromstring(u('https://news.ycombinator.com/rss').read()).findall('channel/item'),0,30,1)))
+import itertools as i; import xml.etree.ElementTree as ET; from urllib.request import urlopen as u; list(map(lambda c: print('[\033[32m+\033[0m] \033[33m{t} \033[0m\033[37m{l}\033[0m'.format(t=c.find('title').text,l=c.find('link').text)), i.islice(ET.fromstring(u('https://news.ycombinator.com/rss').read()).findall('channel/item'),0,30,1)))
