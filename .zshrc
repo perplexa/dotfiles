@@ -26,7 +26,7 @@ SAVEHIST=10000000
 if [[ -x `whence -p gdircolors` ]];
   then alias dircolors='gdircolors'
 fi
-eval `dircolors ~/.gruvbox.dircolors`
+eval `dircolors --sh ~/.gruvbox.dircolors`
 
 # enable ls colors for zsh completion
 if [[ -x `whence -p gls` ]];
