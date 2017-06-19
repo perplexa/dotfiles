@@ -44,7 +44,7 @@ brew install weechat --with-aspell --with-curl --with-python \
                      --with-perl --with-ruby --with-lua
 
 # sync
-brew cask install syncthing
+brew install syncthing
 
 # cask
 brew install caskroom/cask/brew-cask
