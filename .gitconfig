@@ -53,6 +53,9 @@
     # remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
+    # set head to current branch and push
+    p = "!f() { git push origin $(git rev-parse --abbrev-ref HEAD); }; f"
+
     # switch to branch; create if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
