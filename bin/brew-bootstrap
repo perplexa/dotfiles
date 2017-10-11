@@ -3,7 +3,7 @@
 brew update
 brew upgrade --all
 
-# essentials
+# system
 brew install coreutils
 brew install findutils
 brew install moreutils
@@ -17,7 +17,8 @@ brew install tmux
 brew install ctags
 brew install vim
 
-# network
+# monitoring
+brew install htop
 brew install netcat
 brew install nmap
 
@@ -27,9 +28,6 @@ brew install youtube-dl
 
 # development
 brew install jq
-
-# more useful packages
-brew install dark-mode
 
 # pack
 brew install p7zip
@@ -59,6 +57,8 @@ brew cask install macpass
 brew cask install mediathekview
 brew cask install openemu
 brew cask install qsyncthingtray
+brew cask install skype
+brew cask install slack
 brew cask install spek
 brew cask install steam
 brew cask install vagrant
