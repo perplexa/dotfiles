@@ -24,6 +24,7 @@ alias s42-gw='ssh-add && ssh -A ${S42_GW_UID}'
 
 # dev aliases
 alias tf='terraform'
+alias gctoken='tok=`gcloud auth print-access-token`; if command -v pbcopy >/dev/null; then echo "$tok" | tee /dev/tty | pbcopy; else echo $tok; fi'
 alias docker-clean='sudo docker images -q -a | xargs --no-run-if-empty sudo docker rmi'
 alias play-forward='ssh -vvv -N -g -L 9000:127.0.0.1:9000 vagrant@192.168.69.69'
 alias gensslcert='openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
@@ -51,4 +52,3 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 # volume
 alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume 7'"
-
