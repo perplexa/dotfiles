@@ -49,6 +49,6 @@ if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then source ~/google-cloud-sdk/
 
 # kubectl aliases
 if [ -x `whence -p kubectl` ]; then source <(kubectl completion zsh); fi
-if [ -f ~/.kube/aliases-dev ]; then source ~/.kube/aliases-dev; fi
 if [ -f ~/.kube/aliases-stg ]; then source ~/.kube/aliases-stg; fi
 if [ -f ~/.kube/aliases-live ]; then source ~/.kube/aliases-live; fi
+if [ -f ~/.kube/aliases-ops ]; then source ~/.kube/aliases-ops; fi
