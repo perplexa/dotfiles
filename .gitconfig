@@ -62,6 +62,9 @@
     # fetch remote changes and fast-forward merge, otherwise rebase
     up = "!git fetch && (git merge --ff-only || git rebase --preserve-merges)"
 
+    # squash the specified number of commits into a single new commit
+    sq = "!git reset --soft HEAD~$1 && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\""
+
 # color settings
 [color]
     branch = auto
