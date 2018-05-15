@@ -31,6 +31,10 @@ nnoremap <C-p> :bprev<CR>
 nnoremap / /\v
 vnoremap / /\v
 
+" delete does not copy
+nnoremap d "_d
+vnoremap d "_d
+
 " use system-wide clipboard
 set clipboard=unnamed
 
