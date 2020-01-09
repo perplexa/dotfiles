@@ -4,7 +4,8 @@ import re, sys
 
 def normalize(values, scale=7):
     low, high = min(values), max(values)
-    values = map(lambda v: (v - low + 1) / (high - low + 1) * scale, values)
+    #values = map(lambda v: (v - low + 1) / (high - low + 1) * scale, values)
+    values = map(lambda v: (v - low) / (high - low) * scale, values)
     return values
 
 def bar(size):
