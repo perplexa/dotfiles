@@ -7,6 +7,7 @@ source ~/.exports
 source ~/.aliases
 source ~/.functions
 
+pathadd /usr/local/opt/gnu-getopt/bin
 pathadd ~/dotfiles/bin
 
 # oh-my-zsh
@@ -49,6 +50,4 @@ if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then source ~/google-cloud-sdk/
 
 # kubectl aliases
 if [ -x `whence -p kubectl` ]; then source <(kubectl completion zsh); fi
-if [ -f ~/.kube/aliases-stg ]; then source ~/.kube/aliases-stg; fi
-if [ -f ~/.kube/aliases-live ]; then source ~/.kube/aliases-live; fi
-if [ -f ~/.kube/aliases-ops ]; then source ~/.kube/aliases-ops; fi
+for kube_aliases in ~/.kube/aliases-*; do source "${kube_aliases}"; done
