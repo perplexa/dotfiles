@@ -7,7 +7,7 @@ import random
 import time
 import sys
 
-LENGTH = 4
+LENGTH = 5
 
 def entropy(i):
     c = dict()
