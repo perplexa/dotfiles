@@ -4,13 +4,12 @@ brew update
 brew upgrade --all
 
 # system
-brew install coreutils
+brew install coreutils --with-default-names
 brew install findutils
 brew install moreutils
 brew install gnu-sed --with-default-names
 
 # tmux
-brew install reattach-to-user-namespace
 brew install tmux
 
 # vim
@@ -48,20 +47,12 @@ brew install syncthing
 brew install caskroom/cask/brew-cask
 
 # casks
-brew cask install chronicle
-brew cask install cog
-brew cask install kid3
-brew cask install licecap
-brew cask install macdown
-brew cask install macpass
-brew cask install mediathekview
-brew cask install openemu
-brew cask install qsyncthingtray
-brew cask install skype
-brew cask install slack
-brew cask install spek
-brew cask install steam
-brew cask install vagrant
-brew cask install vlc
-brew cask install yed
+casks=(
+  1password db-browser-for-sqlite macdown macpass
+  qsyncthingtray skype slack steam vagrant vlc yed
+)
+
+for cask in "${casks[@]}"; do
+    brew cask install "$cask"
+done
 
