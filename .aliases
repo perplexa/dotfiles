@@ -10,37 +10,24 @@ alias rtorrent='tmuxify rtorrent'
 # network
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-
-# other useful aliases
-alias p='ssh -p ${PPX_SERVER_PORT} ${PPX_SERVER_HOST}'
-alias rand-pwd='LC_ALL=C tr -cd a-zA-Z0-9 < /dev/urandom | fold -w 32 | head -n 1'
-
-# <3
-alias scp-resume='rsync --partial --progress --rsh=ssh'
-
-# oooh!
-alias s42='cd ${S42_HOME}'
-alias s42-gw='ssh-add && ssh -A ${S42_GW_UID}'
+alias p='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST}'
 
 # dev aliases
 alias tf='terraform'
+alias kc='kubectl config current-context'
 alias gctoken='tok=`gcloud auth print-access-token`; if command -v pbcopy >/dev/null; then echo "$tok" | tee /dev/tty | pbcopy; else echo $tok; fi'
 alias docker-clean='sudo docker images -q -a | xargs --no-run-if-empty sudo docker rmi'
 alias play-forward='ssh -vvv -N -g -L 9000:127.0.0.1:9000 vagrant@192.168.69.69'
 alias gensslcert='openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
 alias pp-nlbr='pbpaste | sed -e $'\''s/\{lnbr\}/\\\n/g'\'' -e '\''s/\(^\|\n\) \+/\1    /g'\'''
-
-# old php aliases
-alias start_helios='screen -dmSADRU helios VBoxHeadless --startvm helios &'
-alias xdbg_tunnel='ssh -vvv -N -g -R 9000:127.0.0.1:9000 helios.local' # then http://url?XDEBUG_SESSION_START=perplexa
-alias xphp='PHP_IDE_CONFIG="serverName=trunk.localhost" XDEBUG_CONFIG="idekey=XDEBUG_PHPSTORM" php'
+alias rand-pwd='LC_ALL=C tr -cd a-zA-Z0-9 < /dev/urandom | fold -w 32 | head -n 1'
 
 # osx aliases
 alias fixspotlight='sudo mdutil -i off / && sudo mdutil -i on /'
 alias fixfinder='defaults write com.apple.Finder AppleShowAllFiles YES'
 alias fixlauncher='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -seed'
 alias battery='ioreg -k LegacyBatteryInfo | grep LegacyBatteryInfo | sed '\''s/.*{\(.*\)}/\1/;s/,/=/g'\'' | awk -F= '\''{print 100*$8/$6}'\'' | xargs printf '\''%.2f'\'''
-alias trash='sudo srm -rvP {~/.Trash,/Volumes/*/.Trashes}(N)'
+alias trash='rm -rv {~/.Trash,/Volumes/*/.Trashes}(N)'
 alias sysupdate='brew update && brew upgrade && brew cleanup'
 
 # kill all chrome tabs
