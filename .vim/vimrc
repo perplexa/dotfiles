@@ -17,7 +17,7 @@ set cursorline
 set lazyredraw
 
 " tabs
-set expandtab
+"set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -67,6 +67,8 @@ set gdefault
 set incsearch
 set showmatch
 set hlsearch
+set ignorecase
+set smartcase
 nnoremap <leader><space> :noh<cr>
 
 " textmate style whitespaces
