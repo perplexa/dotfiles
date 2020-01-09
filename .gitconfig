@@ -65,6 +65,7 @@
     # squash the specified number of commits into a single new commit
     sq = "!git reset --soft HEAD~$1 && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\""
 
+    # git change-commits GIT_AUTHOR_NAME "old name" "new name"
     # change commit history, see https://stackoverflow.com/questions/2919878/git-rewrite-previous-commit-usernames-and-emails
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 
@@ -91,3 +92,5 @@
     changed = yellow
     untracked = red
 
+[diff "sopsdiffer"]
+	textconv = sops -d
