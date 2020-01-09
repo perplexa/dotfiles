@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TEMP="/tmp"
+WIDTH=50
+
+FILE="$TEMP/$RANDOM"
+
+LINK="$1"
+
+if [ -z "$LINK" ]; then
+  echo "Usage: $0 LINK"
+  exit 1
+fi
+
+wget -q -O "$FILE" "$LINK" || exit 1
+
+p2u -fm -px -w $WIDTH "$FILE"
+rm -rf "$FILE"

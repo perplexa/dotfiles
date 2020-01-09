@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ans=(ascii/ansi/*/*.ans)
+fil=${ans[$(( $RANDOM % ${#ans[@]} + 1 ))]}
+
+a2m "$fil"
