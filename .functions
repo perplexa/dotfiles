@@ -1,3 +1,21 @@
+# send cmd+shift+a to MacPass and get a 2FA token from oathtool
+2fa() {
+  if [ -n "$1" ]; then
+    setopt local_options no_notify no_monitor
+    echo "Sending \u2318 + \u21e7 + a"
+    sleep 0.05
+    echo -ne "\033]0;"$1-totp"\007"
+    osascript -e 'tell application "System Events" to keystroke "a" using {command down, shift down}'
+    read -s secret
+    token=$(oathtool --totp -b "$secret")
+    echo "Copying token to clipboard: $token"
+    echo -n $token | pbcopy
+    echo "Erasing clipboard in 10 seconds."
+    ( sleep 10; pbcopy </dev/null ) &
+    disown &>/dev/null
+  fi
+}
+
 # use ffmpeg to extract an audio track from a container
 audiotrack() {
   if [ -e "$1" ]; then
@@ -34,6 +52,10 @@ cdf() {
 chrome-incognito() {
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --incognito -- "$1"
   osascript -e 'tell application "Google Chrome" to activate'
+}
+
+firefox-incognito() {
+  /Applications/Firefox.app/Contents/MacOS/firefox -private-window "$1"
 }
 
 # create a data URL from a file
