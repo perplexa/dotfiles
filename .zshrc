@@ -8,6 +8,7 @@ source ~/.aliases
 source ~/.functions
 
 pathadd /usr/local/opt/gnu-getopt/bin
+pathadd /usr/local/opt/libpq/bin
 pathadd ~/dotfiles/bin
 
 # oh-my-zsh
