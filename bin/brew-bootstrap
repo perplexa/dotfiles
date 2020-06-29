@@ -1,13 +1,13 @@
 #!/bin/bash
 
 brew update
-brew upgrade --all
+brew upgrade
 
 # system
-brew install coreutils --with-default-names
+brew install coreutils
 brew install findutils
 brew install moreutils
-brew install gnu-sed --with-default-names
+brew install gnu-sed
 
 # tmux
 brew install tmux
@@ -22,7 +22,7 @@ brew install netcat
 brew install nmap
 
 # media
-brew install ffmpeg --with-libvpx --with-libvorbis --with-libopus
+brew install ffmpeg
 brew install youtube-dl
 
 # development
@@ -34,22 +34,18 @@ brew install unrar
 
 # crypto
 brew install gnupg
-brew install keybase
-
-# irc
-brew install weechat --with-aspell --with-curl --with-python \
-                     --with-perl --with-ruby --with-lua
 
 # sync
 brew install syncthing
 
 # cask
-brew install caskroom/cask/brew-cask
+brew install homebrew/cask-cask
 
 # casks
 casks=(
-  1password db-browser-for-sqlite macdown macpass
-  qsyncthingtray skype slack steam vagrant vlc yed
+  1password alacritty db-browser-for-sqlite keybase
+  macdown macpass qsyncthingtray skype slack steam
+  vlc yed
 )
 
 for cask in "${casks[@]}"; do
