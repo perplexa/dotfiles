@@ -27,6 +27,7 @@ key_bindings:
 - { key: W,        mods: Command,       chars: "\x01\x78" }        # map cmd+w to ctrl+a x
 - { key: D,        mods: Command,       chars: "\x01\x7c" }        # map cmd+d to ctrl+a |
 - { key: D,        mods: Command|Shift, chars: "\x01\x2d" }        # map cmd+shift+d to ctrl+a -
+- { key: F,        mods: Command,       chars: "\x01\x5c" }        # map cmd+f to ctrl+a \
 - { key: 36,       mods: Command,       action: ToggleFullscreen } # cmd+enter to toggle fulscreen
 
 font:
