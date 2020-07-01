@@ -14,8 +14,8 @@ mouse:
 
 window:
   dimensions:
-    columns: 145
-    lines: 35
+    columns: 165
+    lines: 45
   decorations: full
 
 background_opacity: 0.92
@@ -25,8 +25,8 @@ key_bindings:
 - { key: Right,    mods: Command,       chars: "\e[1;5C" }         # map cmd+right to ctrl+right
 - { key: T,        mods: Command,       chars: "\x01\x63" }        # map cmd+t to ctrl+a c
 - { key: W,        mods: Command,       chars: "\x01\x78" }        # map cmd+w to ctrl+a x
-- { key: D,        mods: Command,       chars: "\x01\x2d" }        # map cmd+d to ctrl+a -
-- { key: D,        mods: Command|Shift, chars: "\x01\x7c" }        # map cmd+shift+d to ctrl+a |
+- { key: D,        mods: Command,       chars: "\x01\x7c" }        # map cmd+d to ctrl+a |
+- { key: D,        mods: Command|Shift, chars: "\x01\x2d" }        # map cmd+shift+d to ctrl+a -
 - { key: 36,       mods: Command,       action: ToggleFullscreen } # cmd+enter to toggle fulscreen
 
 font:
