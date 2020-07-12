@@ -27,7 +27,6 @@ key_bindings:
 - { key: Right,    mods: Command,       chars: "\e[1;5C" }         # cmd+right       -> ctrl+right
 - { key: Left,     mods: Command|Shift, chars: "\e[1;6D" }         # cmd+shift+left  -> ctrl+shift+left
 - { key: Right,    mods: Command|Shift, chars: "\e[1;6C" }         # cmd+shift_right -> ctrl+shift+right
-
 - { key: T,        mods: Command,       chars: "\x01\x63" }        # cmd+t           -> ctrl+a c
 - { key: W,        mods: Command,       chars: "\x01\x78" }        # cmd+w           -> ctrl+a x
 - { key: D,        mods: Command,       chars: "\x01\x7c" }        # cmd+d           -> ctrl+a |
@@ -38,6 +37,7 @@ key_bindings:
 - { key: L,        mods: Option,        chars: "\x1b\x6c" }        # alt+l           -> esc+l
 - { key: N,        mods: Option,        chars: "\x1b\x6e" }        # alt+n           -> esc+n
 - { key: P,        mods: Option,        chars: "\x1b\x70" }        # alt+p           -> esc+p
+- { key: P,        mods: Option|Shift,  chars: "\x1b\x50" }        # alt+shiftp      -> esc+shift+p
 - { key: S,        mods: Option,        chars: "\x1b\x73" }        # alt+s           -> esc+s
 
 font:
