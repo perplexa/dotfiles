@@ -34,6 +34,7 @@ key_bindings:
 - { key: F,        mods: Command,       chars: "\x01\x5c" }        # cmd+f           -> ctrl+a \
 - { key: 36,       mods: Command,       action: ToggleFullscreen } # cmd+enter       -> toggle fulscreen
 # weechat bindings
+- { key: A,        mods: Option,        chars: "\x1b\x61" }        # alt+a           -> esc+a
 - { key: L,        mods: Option,        chars: "\x1b\x6c" }        # alt+l           -> esc+l
 - { key: N,        mods: Option,        chars: "\x1b\x6e" }        # alt+n           -> esc+n
 - { key: P,        mods: Option,        chars: "\x1b\x70" }        # alt+p           -> esc+p
