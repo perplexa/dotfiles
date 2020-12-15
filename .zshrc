@@ -10,6 +10,7 @@ source ~/.functions
 pathadd /usr/local/opt/gnu-getopt/bin
 pathadd /usr/local/opt/libpq/bin
 pathadd ~/dotfiles/bin
+pathadd ~/.cargo/bin
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE='true'
@@ -41,6 +42,9 @@ if [ ! -x `whence -p md5sum` ]; then alias md5sum='md5 -r'; fi
 
 # disable python virtualenv prompt
 # export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# allow GPG to send passsword prompts
+export GPG_TTY=$(tty)
 
 # Google Cloud SDK
 # The next line updates PATH for the Google Cloud SDK.
