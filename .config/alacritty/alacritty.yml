@@ -32,6 +32,7 @@ key_bindings:
 - { key: D,        mods: Command,       chars: "\x01\x7c" }        # cmd+d           -> ctrl+a |
 - { key: D,        mods: Command|Shift, chars: "\x01\x2d" }        # cmd+shift+d     -> ctrl+a -
 - { key: F,        mods: Command,       chars: "\x01\x5c" }        # cmd+f           -> ctrl+a \
+- { key: K,        mods: Command,       chars: "\x0b" }            # cmd+k           -> ctrl+k
 - { key: 36,       mods: Command,       action: ToggleFullscreen } # cmd+enter       -> toggle fulscreen
 # weechat bindings
 - { key: A,        mods: Option,        chars: "\x1b\x61" }        # alt+a           -> esc+a
