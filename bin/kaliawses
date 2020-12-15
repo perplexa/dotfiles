@@ -1,0 +1,33 @@
+#!/bin/bash
+
+aws_accounts=$(awk 'match($0,/\[.*\]/) {print substr($0,RSTART+1,RLENGTH-2)}' ~/.aws/credentials)
+
+for account in $aws_accounts; do
+	account_alias=$(grep -Eo '[^-]+$' <<< "$account")
+
+	alias_file=~/.kube/aliases-${account}
+	[ -f "$alias_file" ] && rm "$alias_file"
+
+	echo "Updating kubeconfig with clusters of account $account (alias: ${account_alias})"
+	export AWS_PROFILE="$account"
+
+	regions=$(aws ec2 describe-regions --region eu-central-1 --query 'Regions[].RegionName' --output text)
+	for region in $regions; do
+
+		clusters=$(aws eks list-clusters --region "$region" --query 'clusters' --output text 2>/dev/null)
+		for cluster in $clusters; do
+			kubeconfig=~/.kube/config-${account}-${cluster}
+			[ -f "$kubeconfig" ] && rm "$kubeconfig"
+
+			aws eks update-kubeconfig --region "$region" --name "$cluster" --kubeconfig "$kubeconfig"
+
+		    echo "alias kk${account_alias}-${cluster}="\""kubectl --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
+			echo "alias hh${account_alias}-${cluster}="\""helm --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
+		done
+	done
+done
+
+shell_conf=~/.$(basename "$SHELL")rc
+cmd='for kube_aliases in ~/.kube/aliases-*; do source "${kube_aliases}"; done'
+grep -qF "$cmd" "$shell_conf" || echo "$cmd" >> "$shell_conf"
+
