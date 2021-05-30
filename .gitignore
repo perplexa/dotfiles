@@ -12,3 +12,6 @@
 *.pyc
 __pycache__
 
+# non-shared configs
+.config/joplin-desktop
+
