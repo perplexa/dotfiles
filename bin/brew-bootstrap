@@ -43,9 +43,7 @@ brew install homebrew/cask-cask
 
 # casks
 casks=(
-  1password alacritty db-browser-for-sqlite keybase
-  macdown macpass qsyncthingtray skype slack steam
-  vlc yed
+  1password alacritty qsyncthingtray vlc
 )
 
 for cask in "${casks[@]}"; do
