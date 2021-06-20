@@ -93,4 +93,11 @@
     untracked = red
 
 [diff "sopsdiffer"]
-	textconv = sops -d
+    textconv = sops -d
+
+[commit]
+    gpgsign = true
+
+[user]
+    signingkey = 85E1A06E59891650
+
