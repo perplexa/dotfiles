@@ -7,6 +7,7 @@ source ~/.exports
 source ~/.aliases
 source ~/.functions
 
+pathadd /opt/homebrew/bin
 pathadd /usr/local/opt/gnu-getopt/bin
 pathadd /usr/local/opt/libpq/bin
 pathadd ~/dotfiles/bin
