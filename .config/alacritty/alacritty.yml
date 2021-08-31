@@ -30,8 +30,7 @@ window:
     columns: 165
     lines: 45
   decorations: full
-
-background_opacity: 0.92
+  opacity: 0.92
 
 key_bindings:
 # iterm2 bindings
