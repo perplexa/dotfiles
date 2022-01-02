@@ -11,6 +11,8 @@ alias rtorrent='tmuxify rtorrent'
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias p='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST}'
+alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
+alias scan-macs='sudo nmap -sU -p 161 -T4 -d -v -n -Pn --script snmp-interfaces'
 
 # dev aliases
 alias tf='terraform'
