@@ -12,3 +12,11 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # show extensions
 defaults write com.apple.finder AppleShowAllFiles YES
+
+# change hostname
+HOSTNAME=mbp
+sudo scutil --set HostName "$HOSTNAME"
+sudo scutil --set LocalHostName "$HOSTNAME"
+sudo scutil --set ComputerName "$HOSTNAME"
+dscacheutil -flushcache
+

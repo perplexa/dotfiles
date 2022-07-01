@@ -16,6 +16,9 @@
     # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
     precomposeunicode = false
 
+[merge]
+    conflictStyle = diff3
+
 [alias]
     # short graph log alias
     l = "log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
@@ -57,10 +60,10 @@
     p = "!f() { git push origin $(git rev-parse --abbrev-ref HEAD); }; f"
 
     # switch to branch; create if necessary
-    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; git branch --set-upstream-to=\"origin/$1\" \"$1\"; }; f"
 
     # fetch remote changes and fast-forward merge, otherwise rebase
-    up = "!git fetch && (git merge --ff-only || git rebase --preserve-merges)"
+    up = "!git fetch && (git merge --ff-only || git rebase --rebase-merges)"
 
     # squash the specified number of commits into a single new commit
     sq = "!git reset --soft HEAD~$1 && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\""

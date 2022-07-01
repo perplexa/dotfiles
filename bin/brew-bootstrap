@@ -39,14 +39,14 @@ brew install gnupg
 brew install syncthing
 
 # cask
-brew install homebrew/cask-cask
+#brew install homebrew/cask-cask
 
 # casks
 casks=(
-  1password alacritty qsyncthingtray vlc
+  alacritty qsyncthingtray vlc
 )
 
 for cask in "${casks[@]}"; do
-    brew cask install "$cask"
+    brew install "$cask"
 done
 
