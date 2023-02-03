@@ -104,3 +104,5 @@
 [user]
     signingkey = 85E1A06E59891650
 
+[url "https://"]
+	insteadOf = git://
