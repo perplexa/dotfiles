@@ -23,7 +23,7 @@ brew install nmap
 
 # media
 brew install ffmpeg
-brew install youtube-dl
+brew install yt-dlp
 
 # development
 brew install jq
