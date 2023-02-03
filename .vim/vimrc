@@ -183,21 +183,24 @@ let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
 
 " theme
 syntax enable
+au syntax * syntax sync fromstart
 set background=dark
 colorscheme gruvbox
 
 " rainbow parentheses config
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-\ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
 \ 'ctermfgs': ['darkblue', 'darkgrey', 'darkmagenta', 'darkcyan'],
 \ 'operators': '_,_',
 \ 'parentheses': [['(',')'], ['\[','\]'], ['{','}']],
 \ 'separately': {
 \   '*': {},
 \   'clojure': {
-\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
 \     'ctermfgs': ['darkblue', 'darkgrey', 'darkmagenta', 'darkcyan', 'darkred', 'darkgreen'],
+\   },
+\   'markdown': {
+\     'parentheses_options': 'containedin=markdownCode contained',
 \   },
 \   'vim': {
 \     'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
@@ -206,6 +209,7 @@ let g:rainbow_conf = {
 \     'parentheses': [['(',')'], ['\[','\]'], ['\\begin{.*}','\\end{.*}']],
 \   },
 \   'css': 0,
+\   'nerdtree': 0,
 \   'stylus': 0,
 \   }
 \}
