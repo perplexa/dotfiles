@@ -17,6 +17,7 @@ alias scan-macs='sudo nmap -sU -p 161 -T4 -d -v -n -Pn --script snmp-interfaces'
 # dev aliases
 alias tf='terraform'
 alias tg='terragrunt run-all --terragrunt-non-interactive'
+alias tgp='terragrunt run-all --terragrunt-non-interactive plan | grep -v "\(Reading\|Refreshing state\)\(\\.\)\{3\}\|Read complete after"'
 alias kc='kubectl config current-context'
 alias gctoken='tok=`gcloud auth print-access-token`; if command -v pbcopy >/dev/null; then echo "$tok" | tee /dev/tty | pbcopy; else echo $tok; fi'
 alias docker-clean='sudo docker images -q -a | xargs --no-run-if-empty sudo docker rmi'
