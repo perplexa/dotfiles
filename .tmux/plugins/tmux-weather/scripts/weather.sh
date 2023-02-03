@@ -4,7 +4,7 @@ CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$CURRENT_DIR/helpers.sh"
 
 get_weather() {
-  local location=$(get_tmux_option "@tmux-weather-location" "Potsdam")
+  local location=$(get_tmux_option "@tmux-weather-location" "Berlin")
   local format=$(get_tmux_option "@tmux-weather-format" "%c+%t+%w")
   local units=$(get_tmux_option "@tmux-weather-units" "m")
 
