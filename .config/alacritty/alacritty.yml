@@ -55,7 +55,6 @@ key_bindings:
 
 font:
   size: 13
-  use_thin_strokes: true
   normal:
     family: DejaVu Sans Mono
     # style: Regular
