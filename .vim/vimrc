@@ -1,9 +1,6 @@
 scriptencoding utf-8
 " ^^ please leave the above line at the start of the file.
 
-" pathogen
-execute pathogen#infect()
-
 " basic setup
 syntax on
 filetype plugin indent on
@@ -181,15 +178,32 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeIgnore=['\~$', '\.swp$', '\.pyc$', '^__pycache__$']
 " let g:NERDTreeDirArrows=0
 
+" Terraform
+let g:terraform_fmt_on_save=1
+
 " theme
 syntax enable
 au syntax * syntax sync fromstart
 set background=dark
 colorscheme gruvbox
 
+" tabular
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+
 " rainbow parentheses config
-let g:rainbow_active = 1
-let g:rainbow_conf = {
+let g:rainbow_active=1
+let g:rainbow_conf={
 \ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
 \ 'ctermfgs': ['darkblue', 'darkgrey', 'darkmagenta', 'darkcyan'],
 \ 'operators': '_,_',
