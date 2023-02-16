@@ -13,6 +13,7 @@ hints:
   enabled:
   - regex: "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
             [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+    hyperlinks: true
     command:
       program: /Applications/Firefox Nightly.app/Contents/MacOS/firefox
       args:
@@ -27,8 +28,9 @@ hints:
 
 window:
   dimensions:
-    columns: 165
-    lines: 45
+    columns: 200
+    lines: 60
+  dynamic_title: true
   decorations: full
   opacity: 0.92
 
