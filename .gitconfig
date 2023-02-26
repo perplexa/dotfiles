@@ -102,7 +102,7 @@
     gpgsign = true
 
 [user]
-    signingkey = 85E1A06E59891650
+    signingkey = 64E0E9FB26E4DDD6!
 
 [url "https://"]
 	insteadOf = git://
