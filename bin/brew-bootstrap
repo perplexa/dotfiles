@@ -27,6 +27,7 @@ brew install yt-dlp
 
 # development
 brew install jq
+brew install yq
 
 # pack
 brew install p7zip
@@ -35,15 +36,12 @@ brew install unrar
 # crypto
 brew install gnupg
 
-# sync
-brew install syncthing
-
-# cask
-#brew install homebrew/cask-cask
+# zsh
+brew install chroma
 
 # casks
 casks=(
-  alacritty qsyncthingtray vlc
+  alacritty lulu oversight sloth vlc
 )
 
 for cask in "${casks[@]}"; do

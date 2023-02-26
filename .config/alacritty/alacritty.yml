@@ -31,6 +31,7 @@ window:
     columns: 200
     lines: 60
   dynamic_title: true
+  resize_increments: true
   decorations: full
   opacity: 0.92
 

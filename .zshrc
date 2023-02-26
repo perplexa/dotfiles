@@ -4,7 +4,12 @@ COMPLETION_WAITING_DOTS='true'
 ZSH=~/.oh-my-zsh
 ZSH_CUSTOM=~/.zsh-custom
 ZSH_THEME=theunraveler
-plugins=(git nmap perl python sudo themes torrent vagrant zsh-syntax-highlighting)
+ZSH_COLORIZE_CHROMA_FORMATTER=terminal256
+plugins=(
+  aws brew colorize cp git golang helm kubectl nmap perl python rust
+  rsync sudo terraform themes torrent vagrant zsh-syntax-highlighting
+)
+
 source $ZSH/oh-my-zsh.sh
 
 # bigger history
@@ -32,14 +37,8 @@ if [ ! -x `whence -p md5sum` ]; then alias md5sum='md5 -r'; fi
 # allow GPG to send passsword prompts
 export GPG_TTY=$(tty)
 
-# Google Cloud SDK
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then source ~/google-cloud-sdk/path.zsh.inc; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then source ~/google-cloud-sdk/completion.zsh.inc; fi
+# homebrew
+export HOMEBREW_NO_ANALYTICS=1
 
 # kubectl aliases
-if [ -x `whence -p kubectl` ]; then source <(kubectl completion zsh); fi
 for kube_aliases in ~/.kube/aliases-*(N); do source "${kube_aliases}"; done
-for kube_aliases in ~/.kube/aliases-*; do source "${kube_aliases}"; done
