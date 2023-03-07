@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aws_accounts=$(awk 'match($0,/\[.*\]/) {print substr($0,RSTART+1,RLENGTH-2)}' ~/.aws/credentials)
+aws_accounts=$(awk 'match($0,/\[.*\]/) {print substr($0,RSTART+9,RLENGTH-10)}' ~/.aws/config)
 
 for account in $aws_accounts; do
 	account_alias=$(grep -Eo '[^-]+$' <<< "$account")
