@@ -172,6 +172,24 @@ user_pref("pref.privacy.disable_button.cookie_exceptions", false);
 user_pref("pref.privacy.disable_button.tracking_protection_exceptions", false);
 user_pref("security.disable_button.openCertManager", false);
 
+/* 4501: enable RFP
+ * [SETUP-WEB] RFP can cause some website breakage: mainly canvas, use a canvas site exception via the urlbar
+ * RFP also has a few side effects: mainly timezone is UTC0, and websites will prefer light theme
+ * [NOTE] pbmode applies if true and the original pref is false
+ * [1] https://bugzilla.mozilla.org/418986 ***/
+// resistFingerprinting overrides fingerprintingProtection, so these must be disabled
+user_pref("privacy.resistFingerprinting", false); // [FF41+]
+user_pref("privacy.resistFingerprinting.pbmode", false);
+// At least one of these two must be enabled
+user_pref("privacy.fingerprintingProtection", true);
+user_pref("privacy.fingerprintingProtection.pbmode", true);
+user_pref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
+
+/* 4503: disable mozAddonManager Web API [FF57+]
+ * [NOTE] To allow extensions to work on AMO, you also need 2662
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
+user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
+
 /* Enable the DNT (Do Not Track) HTTP header
  * [NOTE] DNT is enforced with Enhanced Tracking Protection regardless of this pref
  * [SETTING] Privacy & Security>Enhanced Tracking Protection>Send websites a "Do Not Track" signal... ***/
