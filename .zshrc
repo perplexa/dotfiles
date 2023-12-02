@@ -1,6 +1,10 @@
 # oh-my-zsh
-DISABLE_AUTO_UPDATE='true'
-COMPLETION_WAITING_DOTS='true'
+DISABLE_AUTO_UPDATE="true"
+COMPLETION_WAITING_DOTS="true"
+# workaround for:
+# - https://www.zsh.org/mla/workers/2022/msg01205.html
+# - https://www.zsh.org/mla/workers/2022/msg00655.html
+CASE_SENSITIVE="true"
 ZSH=~/.oh-my-zsh
 ZSH_CUSTOM=~/.zsh-custom
 ZSH_THEME=theunraveler
@@ -41,4 +45,5 @@ export GPG_TTY=$(tty)
 export HOMEBREW_NO_ANALYTICS=1
 
 # kubectl aliases
+#for kube_aliases in ~/.kube/aliases-*; do source "${kube_aliases}"; done
 for kube_aliases in ~/.kube/aliases-*(N); do source "${kube_aliases}"; done
