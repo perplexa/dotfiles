@@ -60,7 +60,7 @@
     p = "!f() { git push origin $(git rev-parse --abbrev-ref HEAD); }; f"
 
     # switch to branch; create if necessary
-    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; git branch --set-upstream-to=\"origin/$1\" \"$1\"; }; f"
+    go = "!f() { (git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"); git branch --set-upstream-to=\"origin/$1\" \"$1\"; }; f"
 
     # fetch remote changes and fast-forward merge, otherwise rebase
     up = "!git fetch && (git merge --ff-only || git rebase --rebase-merges)"
