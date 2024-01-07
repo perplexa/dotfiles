@@ -1,0 +1,74 @@
+[shell]
+program = "/bin/zsh"
+args = [ "-l", "-c", "tmux attach -t 'λ' || tmux new -s 'λ'" ]
+
+[mouse]
+hide_when_typing = true
+
+[[hints.enabled]]
+hyperlinks      = true
+post_processing = true
+regex           = "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+binding         = { key = "U", mods = "Control|Shift" }
+command         = { program = "/Applications/Firefox Nightly.app/Contents/MacOS/firefox", args = ["-private-window"] }
+mouse           = { enabled = true, mods = "None" }
+
+[window]
+dimensions        = { columns = 200, lines = 60 }
+dynamic_title     = true
+resize_increments = true
+decorations       = "full"
+opacity           = 0.92
+
+[keyboard]
+bindings = [
+  { key = "Left",     mods = "Command",       chars = "\u001B[1;5D" },       # cmd+left        -> ctrl+left
+  { key = "Right",    mods = "Command",       chars = "\u001B[1;5C" },       # cmd+right       -> ctrl+right
+  { key = "Left",     mods = "Command|Shift", chars = "\u001B[1;6D" },       # cmd+shift+left  -> ctrl+shift+left
+  { key = "Right",    mods = "Command|Shift", chars = "\u001B[1;6C" },       # cmd+shift_right -> ctrl+shift+right
+  { key = "T",        mods = "Command",       chars = "\u0001c" },           # cmd+t           -> ctrl+a c
+  { key = "W",        mods = "Command",       chars = "\u0001x" },           # cmd+w           -> ctrl+a x
+  { key = "D",        mods = "Command",       chars = "\u0001|" },           # cmd+d           -> ctrl+a |
+  { key = "D",        mods = "Command|Shift", chars = "\u0001-" },           # cmd+shift+d     -> ctrl+a -
+  { key = "F",        mods = "Command",       chars = "\u0001\\" },          # cmd+f           -> ctrl+a \
+  { key = "K",        mods = "Command",       chars = "\u000b" },            # cmd+k           -> ctrl+k
+  { key = 36,         mods = "Command",       action = "ToggleFullscreen" }, # cmd+enter       -> toggle fulscreen
+  # weechat bindings
+  { key = "A",        mods = "Option",        chars = "\u001ba" },           # alt+a           -> esc+a
+  { key = "L",        mods = "Option",        chars = "\u001bl" },           # alt+l           -> esc+l
+  { key = "N",        mods = "Option",        chars = "\u001bn" },           # alt+n           -> esc+n
+  { key = "P",        mods = "Option",        chars = "\u001bp" },           # alt+p           -> esc+p
+  { key = "P",        mods = "Option|Shift",  chars = "\u001bP" },           # alt+shiftp      -> esc+shift+p
+  { key = "S",        mods = "Option",        chars = "\u001bs" }            # alt+s           -> esc+s
+]
+
+[font]
+size   = 13
+bold   = { family = "DejaVu Sans Mono" }
+italic = { family = "DejaVu Sans Mono" }
+normal = { family = "DejaVu Sans Mono" }
+
+# gruvbox dark
+[colors.primary]
+background = "#282828"
+foreground = "#ebdbb2"
+
+[colors.normal]
+black = "#282828"
+blue = "#458588"
+cyan = "#689d6a"
+green = "#98971a"
+magenta = "#b16286"
+red = "#cc241d"
+white = "#a89984"
+yellow = "#d79921"
+
+[colors.bright]
+black = "#928374"
+blue = "#83a598"
+cyan = "#8ec07c"
+green = "#b8bb26"
+magenta = "#d3869b"
+red = "#fb4934"
+white = "#ebdbb2"
+yellow = "#fabd2f"
