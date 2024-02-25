@@ -93,7 +93,7 @@ user_pref("browser.tabs.warnOnClose", false);
 /* Always show Bookmarks Bar
  * Omit Other Bookmarks in favor of added Bookmarks Menu in Bookmarks Toolbar Items */
 user_pref("browser.toolbars.bookmarks.showOtherBookmarks", false);
-user_pref("browser.toolbars.bookmarks.visibility", "always");
+//user_pref("browser.toolbars.bookmarks.visibility", "always");
 
 /* Disable UITour backend so there is no chance that a remote page can use it ***/
 user_pref("browser.uitour.enabled", false);
