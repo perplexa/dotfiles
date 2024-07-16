@@ -115,7 +115,7 @@ server() {
 
 # shrink a file or directory
 shrink() {
-  [ -n "$*" ] && tar --xz -cvf "$1.tar.xz" "$@"
+  [ -n "$*" ] && tar --zstd -cvf "$1.tar.zst" "$@"
 }
 
 # get currently playing spotify track
