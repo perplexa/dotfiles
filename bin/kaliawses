@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aws_accounts=$(awk 'match($0,/\[.*\]/) {print substr($0,RSTART+9,RLENGTH-10)}' ~/.aws/config)
+aws_accounts=$(awk 'match($0,/\[profile .*\]/) {print substr($0,RSTART+9,RLENGTH-10)}' ~/.aws/config)
 
 for account in $aws_accounts; do
 	account_alias=$(grep -Eo '[^-]+$' <<< "$account")
@@ -16,13 +16,15 @@ for account in $aws_accounts; do
 
 		clusters=$(aws eks list-clusters --region "$region" --query 'clusters' --output text 2>/dev/null)
 		for cluster in $clusters; do
-			kubeconfig=~/.kube/config-${account}-${cluster}
+			# use only last segment of cluster name
+			shortcluster=$(echo "$cluster" | sed 's/.*-//')
+			kubeconfig=~/.kube/config-${account}-${shortcluster}
 			[ -f "$kubeconfig" ] && rm "$kubeconfig"
 
 			aws eks update-kubeconfig --region "$region" --name "$cluster" --kubeconfig "$kubeconfig"
 
-		    echo "alias kk${account_alias}-${cluster}="\""kubectl --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
-			echo "alias hh${account_alias}-${cluster}="\""helm --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
+		    echo "alias kk${account_alias}-${shortcluster}="\""kubectl --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
+			echo "alias hh${account_alias}-${shortcluster}="\""helm --kubeconfig='${kubeconfig}'"\""" >> "$alias_file"
 		done
 	done
 done
