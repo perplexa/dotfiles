@@ -8,6 +8,7 @@ source ~/.aliases
 source ~/.functions
 
 pathadd /opt/homebrew/bin
+pathadd /opt/homebrew/sbin
 pathadd /usr/local/opt/gnu-getopt/bin
 pathadd /usr/local/opt/libpq/bin
 pathadd ~/dotfiles/bin
