@@ -18,6 +18,7 @@ brew install vim
 
 # monitoring
 brew install htop
+brew install mtr
 brew install netcat
 brew install nmap
 
@@ -41,10 +42,10 @@ brew install chroma
 
 # casks
 casks=(
-  alacritty lulu obsidian oversight sloth stats vlc
+  alacritty keepassxc lulu obsidian oversight sloth stats syncthing vlc
 )
 
 for cask in "${casks[@]}"; do
-    brew install "$cask"
+    brew install --cask "$cask"
 done
 
