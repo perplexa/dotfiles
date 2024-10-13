@@ -125,7 +125,7 @@ spotify() {
 
 # creates or reattaches to a named tmux session based on the application name
 tmuxify() {
-  tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 "$@"
+  tmux attach-session -t $1 2>/dev/null || tmux new-session -s $1 -- "$@"
 }
 
 # webm converter (vp8, no sound)
