@@ -20,12 +20,13 @@ source $ZSH/oh-my-zsh.sh
 HISTSIZE=10000000
 SAVEHIST=10000000
 
+
 # use gnu dircolors
-if which gdircolors >/dev/null; then alias dircolors='gdircolors'; fi
+if [ -x "$(command -v gdircolors)" ]; then alias dircolors='gdircolors'; fi
 eval `dircolors --sh ~/.gruvbox.dircolors`
 
 # enable ls colors for zsh completion
-if which gls >/dev/null; then alias ls='gls --color=auto'; fi
+if [ -x "$(command -v gls)" ]; then alias ls='gls --color=auto'; fi
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # osx md5sum fallback
