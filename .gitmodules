@@ -1,36 +1,36 @@
 [submodule ".zsh-custom/plugins/zsh-syntax-highlighting"]
 	path = .zsh-custom/plugins/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/pack/plugins/start/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
+	url = https://github.com/scrooloose/nerdtree.git
 [submodule ".vim/bundle/plantuml-syntax"]
 	path = .vim/pack/syntax/start/plantuml-syntax
-	url = git://github.com/aklt/plantuml-syntax
+	url = https://github.com/aklt/plantuml-syntax
 [submodule ".vim/bundle/rainbow"]
 	path = .vim/pack/plugins/start/rainbow
-	url = git://github.com/luochen1990/rainbow.git
+	url = https://github.com/luochen1990/rainbow.git
 [submodule ".vim/bundle/supertab"]
 	path = .vim/pack/plugins/start/supertab
-	url = git://github.com/ervandew/supertab
+	url = https://github.com/ervandew/supertab
 [submodule ".vim/bundle/tagbar"]
 	path = .vim/pack/plugins/start/tagbar
-	url = git://github.com/majutsushi/tagbar
+	url = https://github.com/majutsushi/tagbar
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/pack/plugins/start/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/pack/syntax/start/vim-json
-	url = git://github.com/elzr/vim-json
+	url = https://github.com/elzr/vim-json
 [submodule ".vim/bundle/vim-markdown"]
 	path = .vim/pack/syntax/start/vim-markdown
-	url = git://github.com/tpope/vim-markdown
+	url = https://github.com/tpope/vim-markdown
 [submodule ".vim/bundle/vim-sensible"]
 	path = .vim/pack/plugins/start/vim-sensible
-	url = git://github.com/tpope/vim-sensible.git
+	url = https://github.com/tpope/vim-sensible.git
 [submodule ".vim/bundle/vim-signify"]
 	path = .vim/pack/plugins/start/vim-signify
-	url = git://github.com/mhinz/vim-signify
+	url = https://github.com/mhinz/vim-signify
 [submodule ".vim/bundle/gruvbox"]
 	path = .vim/pack/colors/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
@@ -42,4 +42,4 @@
 	url = https://github.com/hashivim/vim-terraform.git
 [submodule ".vim/bundle/tabular"]
 	path = .vim/pack/plugins/start/tabular
-	url = git://github.com/godlygeek/tabular.git
+	url = https://github.com/godlygeek/tabular.git
