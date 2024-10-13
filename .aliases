@@ -4,7 +4,6 @@ alias i='weechat'
 alias v='vim'
 
 # always start some applications in tmux
-alias weechat='tmuxify weechat'
 alias rtorrent='tmuxify rtorrent'
 
 # network
