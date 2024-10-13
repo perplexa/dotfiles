@@ -11,9 +11,9 @@ The following requirements must be met for these dotfiles.
 
 Clone this repository: `git clone https://github.com/perplexa/dotfiles.git` and `cd dotfiles`.
 
-Run `git submodule init` and `git submodule update` inside the repository.
+Run `git submodule update --init --recursive --progress --remote` inside the repository.
 
-Run `./bin/ln-dotfiles` from a directory, which includes the dotfiles, which will be linked to `$HOME`.
+Run `./bin/ln-dotfiles` inside the dotfiles root folder to symlink each to `$HOME`.
 
 ## Screenshot
 
