@@ -1,6 +1,5 @@
 # shortcuts
 alias f='open .'
-alias i='weechat'
 alias v='vim'
 
 # always start some applications in tmux
@@ -10,6 +9,7 @@ alias rtorrent='tmuxify rtorrent'
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias p='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST}'
+alias i='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST} -t weechat'
 alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
 alias scan-macs='sudo nmap -sU -p 161 -T4 -d -v -n -Pn --script snmp-interfaces'
 
@@ -19,6 +19,7 @@ alias tg='terragrunt run-all --terragrunt-non-interactive'
 alias tgp='terragrunt run-all --terragrunt-non-interactive plan | grep -v "\(Reading\|Refreshing state\)\(\\.\)\{3\}\|Read complete after"'
 alias kc='kubectl config current-context'
 alias gctoken='tok=`gcloud auth print-access-token`; if command -v pbcopy >/dev/null; then echo "$tok" | tee /dev/tty | pbcopy; else echo $tok; fi'
+alias aws-sso='aws sso login --sso-session $(awk '\''match($0,/\[sso-session .*\]/) {print substr($0,RSTART+13,RLENGTH-14)}'\'' ~/.aws/config)'
 alias docker-clean='sudo docker images -q -a | xargs --no-run-if-empty sudo docker rmi'
 alias play-forward='ssh -vvv -N -g -L 9000:127.0.0.1:9000 vagrant@192.168.69.69'
 alias gensslcert='openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
@@ -32,6 +33,7 @@ alias fixlauncher='/System/Library/Frameworks/CoreServices.framework/Frameworks/
 alias battery='ioreg -k LegacyBatteryInfo | grep LegacyBatteryInfo | sed '\''s/.*{\(.*\)}/\1/;s/,/=/g'\'' | awk -F= '\''{print 100*$8/$6}'\'' | xargs printf '\''%.2f'\'''
 alias trash='rm -rv {~/.Trash,/Volumes/*/.Trashes}(N)'
 alias sysupdate='brew update && brew upgrade && brew cleanup'
+alias xprotect-events='sudo sqlite3 -header -csv /var/protected/xprotect/XPdb "select * from events;"'
 
 # kill all chrome tabs
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
