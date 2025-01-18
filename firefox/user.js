@@ -190,11 +190,6 @@ user_pref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefers
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true);
 
-/* Enable the DNT (Do Not Track) HTTP header
- * [NOTE] DNT is enforced with Enhanced Tracking Protection regardless of this pref
- * [SETTING] Privacy & Security>Enhanced Tracking Protection>Send websites a "Do Not Track" signal... ***/
-user_pref("privacy.donottrackheader.enabled", true);
-
 /* Enable First Party Isolation [FF51+]
  * May break cross-domain logins and site functionality until perfected
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1260931,1299996 ***/
