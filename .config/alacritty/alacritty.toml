@@ -1,4 +1,4 @@
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 args = [ "-l", "-c", "tmux attach -t 'λ' || tmux new -s 'λ'" ]
 
