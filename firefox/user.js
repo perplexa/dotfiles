@@ -33,7 +33,7 @@ user_pref("browser.bookmarks.showMobileBookmarks", false);
  * [NOTE] Enforcing category to custom ensures ETP related prefs are always honored
  * [SETTING] Privacy & Security>Enhanced Tracking Protection>Custom>Cookies
  * [1] https://blog.mozilla.org/security/2021/02/23/total-cookie-protection/ ***/
-user_pref("network.cookie.cookieBehavior", 1);
+user_pref("network.cookie.cookieBehavior", 5);
 
 /* Use custom content blocking policy for Firefox's tracking protection and disable VPN banner */
 user_pref("browser.contentblocking.category", "custom");
