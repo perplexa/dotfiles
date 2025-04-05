@@ -1,10 +1,13 @@
 #!/bin/sh
 
-version=4.4.2
+version=4.6.0
+
+tz=Europe/Berlin
 
 tmux attach-session -t weechat 2>/dev/null || \
 	tmux new-session -s weechat -- podman run -it \
 		-v ~/genesis/weechat/config:/home/user/.config/weechat \
 		-v ~/genesis/weechat/data:/home/user/.local/share/weechat \
 		-v ~/genesis/weechat/cache:/home/user/.cache/weechat \
+		--env TZ=$tz \
 		docker.io/weechat/weechat:${version}
