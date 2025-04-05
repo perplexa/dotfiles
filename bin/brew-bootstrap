@@ -42,7 +42,7 @@ brew install chroma
 
 # casks
 casks=(
-  alacritty keepassxc lulu obsidian oversight sloth stats syncthing vlc
+  alacritty keepassxc lulu obsidian oversight sloth stats syncthing vlc winbox zed
 )
 
 for cask in "${casks[@]}"; do
