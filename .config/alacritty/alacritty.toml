@@ -36,10 +36,10 @@ bindings = [
   # weechat bindings
   { key = "A",        mods = "Option",        chars = "\u001ba" },           # alt+a           -> esc+a
   { key = "L",        mods = "Option",        chars = "\u001bl" },           # alt+l           -> esc+l
-  { key = "N",        mods = "Option",        chars = "\u001bn" },           # alt+n           -> esc+n
-  { key = "P",        mods = "Option",        chars = "\u001bp" },           # alt+p           -> esc+p
-  { key = "P",        mods = "Option|Shift",  chars = "\u001bP" },           # alt+shiftp      -> esc+shift+p
-  { key = "S",        mods = "Option",        chars = "\u001bs" }            # alt+s           -> esc+s
+  #{ key = "N",        mods = "Option",        chars = "\u001bn" },           # alt+n           -> esc+n
+  #{ key = "P",        mods = "Option",        chars = "\u001bp" },           # alt+p           -> esc+p
+  #{ key = "P",        mods = "Option|Shift",  chars = "\u001bP" },           # alt+shiftp      -> esc+shift+p
+  #{ key = "S",        mods = "Option",        chars = "\u001bs" },           # alt+s           -> esc+s
 ]
 
 [font]
