@@ -74,7 +74,7 @@ imgur() {
 
 # convert markdown to html using pandoc
 md2html() {
-  local filename="$(basename "$1" | sed 's/[^\.]\+$/html/')"
+  local filename="$(basename "$1" | gsed 's/[^\.]\+$/html/')"
   pandoc --from=markdown --to=html --output="$filename" "$1"
 }
 
@@ -90,6 +90,14 @@ pb() {
 
 pbd() {
   curl -X DELETE "https://ptpb.pw/$1"
+}
+
+ppxdl() {
+  scp -rP $HOME_SERVER_PORT $HOME_SERVER_HOST:/home/$(whoami)/$1 .
+}
+
+ppxul() {
+  scp -rP $HOME_SERVER_PORT $1 $HOME_SERVER_HOST:/home/$(whoami)/
 }
 
 # rebuild osx icon cache

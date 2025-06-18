@@ -1,13 +1,17 @@
 #!/bin/sh
 
-version=4.6.0
+version=4.6.3
 
 tz=Europe/Berlin
 
+# hardcode default container PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 tmux attach-session -t weechat 2>/dev/null || \
 	tmux new-session -s weechat -- podman run -it \
+		-e PATH="/home/user/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 		-v ~/genesis/weechat/config:/home/user/.config/weechat \
 		-v ~/genesis/weechat/data:/home/user/.local/share/weechat \
 		-v ~/genesis/weechat/cache:/home/user/.cache/weechat \
+		-v ~/dotfiles/bin:/home/user/bin \
+		-v ~/ascii:/home/user/ascii \
 		--env TZ=$tz \
 		docker.io/weechat/weechat:${version}
