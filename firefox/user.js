@@ -60,9 +60,24 @@ user_pref("browser.newtabpage.activity-stream.telemetry.structuredIngestion.endp
 user_pref("browser.newtabpage.activity-stream.telemetry.ut.events", false);
 user_pref("browser.newtabpage.activity-stream.topSitesRows", 4);
 
+/* disable websites overriding Firefox's keyboard shortcuts [FF58+]
+ * 0 (default) or 1=allow, 2=block
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Override Keyboard Shortcuts ***/
+user_pref("permissions.default.shortcuts", 2);
+
+/* remove special permissions for certain mozilla domains [FF35+]
+ * [1] resource://app/defaults/permissions ***/
+user_pref("permissions.manager.defaultsUrl", "");
+
 /* Disable PingCentre telemetry (used in several System Add-ons) [FF57+]
  * Currently blocked by 'datareporting.healthreport.uploadEnabled' (see 0340) ***/
 user_pref("browser.ping-centre.telemetry", false);
+
+/* disable referrer and storage access for resources injected by content scripts [FF139+] ***/
+   // user_pref("privacy.antitracking.isolateContentScriptResources", true);
+
+/* disable CSP Level 2 Reporting [FF140+] ***/
+user_pref("security.csp.reporting.enabled", false);
 
 /* Disable media cache from writing to disk in Private Browsing
  * [NOTE] MSE (Media Source Extensions) are already stored in-memory in PB
