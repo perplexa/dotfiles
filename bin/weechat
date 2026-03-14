@@ -11,7 +11,7 @@ tmux attach-session -t weechat 2>/dev/null || \
 		-v ~/genesis/weechat/config:/home/user/.config/weechat \
 		-v ~/genesis/weechat/data:/home/user/.local/share/weechat \
 		-v ~/genesis/weechat/cache:/home/user/.cache/weechat \
+		-v ~/genesis/ascii:/home/user/ascii \
 		-v ~/dotfiles/bin:/home/user/bin \
-		-v ~/ascii:/home/user/ascii \
 		--env TZ=$tz \
 		docker.io/weechat/weechat:${version}
