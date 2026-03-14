@@ -17,6 +17,7 @@ brew install ctags
 brew install vim
 
 # monitoring
+brew install baobab
 brew install htop
 brew install mtr
 brew install netcat
