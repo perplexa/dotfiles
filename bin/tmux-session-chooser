@@ -1,0 +1,139 @@
+#!/usr/bin/env zsh
+#
+# tmux-session-chooser — select or create a tmux session
+#
+# - No sessions:          create 'λ'
+# - One detached session: auto-attach
+# - Otherwise:            interactive picker
+#
+
+# gruvbox colors
+typeset -r _CY=$'\e[38;2;250;189;47m'   # yellow
+typeset -r _CW=$'\e[38;2;235;219;178m'  # fg
+typeset -r _CD=$'\e[38;2;146;131;116m'  # grey
+typeset -r _BB=$'\e[1m'                  # bold
+typeset -r _RR=$'\e[0m'                  # reset
+
+_banner() {
+  local -a files
+  files=(~/dotfiles/ansi/*(N.))
+  (( ${#files} )) || return
+  local pick=${files[RANDOM % ${#files} + 1]}
+
+  # render ansi art inside a detached 80-column tmux pane, then capture output
+  local tmp=$(mktemp)
+  iconv -f 437 -t UTF-8 "$pick" > "$tmp" 2>/dev/null || { rm -f "$tmp"; return; }
+  local sess="_render_$$" chan="_done_$$"
+  tmux new-session -d -x 80 -y 256 -s "$sess" \
+    "cat '$tmp'; tmux wait-for -S '$chan'; sleep 999" 2>/dev/null || { rm -f "$tmp"; return; }
+  tmux wait-for "$chan" 2>/dev/null
+  local rows=$(tmux display-message -t "$sess" -p '#{cursor_y}')
+  tmux capture-pane -t "$sess" -p -e -E "$rows" 2>/dev/null
+  tmux kill-session -t "$sess" 2>/dev/null
+  rm -f "$tmp"
+  printf '\e[0m\n'
+}
+
+_next_name() {
+  local base="λ"
+  tmux has-session -t "=$base" 2>/dev/null || { echo "$base"; return }
+  local i=2
+  while tmux has-session -t "=${base}${i}" 2>/dev/null; do ((i++)); done
+  echo "${base}${i}"
+}
+
+_create_session() {
+  exec tmux new-session -s "$(_next_name)"
+}
+
+_pick_session() {
+  local -a names meta
+  local selected=0
+
+  while IFS='|' read -r name attached windows; do
+    names+=("$name")
+    if (( attached > 0 )); then
+      meta+=("${windows} win · attached")
+    else
+      meta+=("${windows} win · detached")
+    fi
+  done < <(tmux list-sessions -F '#{session_name}|#{session_attached}|#{session_windows}' | sort -t'|' -k2,2n)
+
+  names+=("")
+  meta+=("")
+  local total=${#names}
+
+  printf '\e[?25l'
+  trap 'printf "\e[?25h"' EXIT
+
+  printf '\e7'
+
+  _draw() {
+    printf '\e8'
+    local j
+    for (( j=1; j<=total; j++ )); do
+      printf '\e[2K'
+      if (( j == total )); then
+        if (( j-1 == selected )); then
+          printf '  %s❯ + new session%s\n' "$_CY" "$_RR"
+        else
+          printf '    %s+ new session%s\n' "$_CD" "$_RR"
+        fi
+      else
+        if (( j-1 == selected )); then
+          printf '  %s❯%s %s%s%s  %s%s%s\n' "$_CY" "$_RR" "$_CW$_BB" "${names[$j]}" "$_RR" "$_CD" "${meta[$j]}" "$_RR"
+        else
+          printf '    %s%s  %s%s\n' "$_CD" "${names[$j]}" "${meta[$j]}" "$_RR"
+        fi
+      fi
+    done
+  }
+
+  _draw
+
+  local key key2 key3
+  while true; do
+    read -rsk1 key
+    case "$key" in
+      $'\e')
+        read -rsk1 -t 0.05 key2 || true
+        if [[ "$key2" == "[" ]]; then
+          read -rsk1 -t 0.05 key3 || true
+          case "$key3" in
+            A) (( selected > 0 )) && ((selected--)) ;;
+            B) (( selected < total - 1 )) && ((selected++)) ;;
+          esac
+        fi
+        ;;
+      $'\n'|$'\r')
+        printf '\e[?25h'
+        printf "\e[${total}B\n"
+        if (( selected == total - 1 )); then
+          _create_session
+        else
+          exec tmux attach-session -t "=${names[$((selected+1))]}"
+        fi
+        ;;
+    esac
+    _draw
+  done
+}
+
+# --- main ---
+
+sessions=$(tmux list-sessions -F '#{session_name}|#{session_attached}' 2>/dev/null) || true
+
+# no sessions: create default
+if [[ -z "$sessions" ]]; then
+  exec tmux new-session -s 'λ'
+fi
+
+# one detached session: auto-attach
+detached=$(echo "$sessions" | awk -F'|' '$2 == "0" { print $1 }')
+if [[ -n "$detached" ]] && [[ "$detached" != *$'\n'* ]]; then
+  exec tmux attach-session -t "=${detached}"
+fi
+
+# multiple sessions or no detached: show picker
+_banner
+_pick_session

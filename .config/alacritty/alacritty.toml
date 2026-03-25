@@ -1,6 +1,6 @@
 [terminal.shell]
 program = "/bin/zsh"
-args = [ "-l", "-c", "tmux attach -t 'λ' || tmux new -s 'λ'" ]
+args = [ "-l", "-c", "tmux-session-chooser" ]
 
 [mouse]
 hide_when_typing = true
@@ -32,6 +32,7 @@ bindings = [
   { key = "D",        mods = "Command|Shift", chars = "\u0001-" },           # cmd+shift+d     -> ctrl+a -
   { key = "F",        mods = "Command",       chars = "\u0001\\" },          # cmd+f           -> ctrl+a \
   { key = "K",        mods = "Command",       chars = "\u000b" },            # cmd+k           -> ctrl+k
+  { key = "N",        mods = "Command",       action = "CreateNewWindow" },  # cmd+n           -> new window
   { key = 36,         mods = "Command",       action = "ToggleFullscreen" }, # cmd+enter       -> toggle fulscreen
   # weechat bindings
   { key = "A",        mods = "Option",        chars = "\u001ba" },           # alt+a           -> esc+a
