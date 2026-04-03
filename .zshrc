@@ -48,3 +48,8 @@ export HOMEBREW_NO_ANALYTICS=1
 # kubectl aliases
 #for kube_aliases in ~/.kube/aliases-*; do source "${kube_aliases}"; done
 for kube_aliases in ~/.kube/aliases-*(N); do source "${kube_aliases}"; done
+
+# show pmatrix on new tmux shells
+if [[ -n "$TMUX" && -n "$MATRIX_ENABLED" ]]; then
+  pmatrix -s
+fi

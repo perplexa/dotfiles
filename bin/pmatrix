@@ -1,0 +1,587 @@
+#!/usr/bin/env python3
+"""
+Python port of CMatrix by Anthropic Claude
+
+Copyright (C) 1999-2017 Chris Allegretta
+Copyright (C) 2017-2026 Abishek V Ashok
+Copyright (C) 2026 perplexa
+
+cmatrix is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+"""
+
+import argparse
+import curses
+import locale
+import os
+import random
+import signal
+import sys
+import time
+
+
+class CMatrixCell:
+    __slots__ = ("val", "is_head")
+
+    def __init__(self, val=-1, is_head=False):
+        self.val = val
+        self.is_head = is_head
+
+
+class CMatrix:
+    VERSION = "2.0-py"
+
+    # Color name to curses color constant mapping
+    COLOR_MAP = {
+        "green": curses.COLOR_GREEN,
+        "red": curses.COLOR_RED,
+        "blue": curses.COLOR_BLUE,
+        "white": curses.COLOR_WHITE,
+        "yellow": curses.COLOR_YELLOW,
+        "cyan": curses.COLOR_CYAN,
+        "magenta": curses.COLOR_MAGENTA,
+        "black": curses.COLOR_BLACK,
+    }
+
+    # Keyboard shortcuts for colors: key -> (color, disable_rainbow)
+    KEY_COLORS = {
+        ord("!"): curses.COLOR_RED,
+        ord("@"): curses.COLOR_GREEN,
+        ord("#"): curses.COLOR_YELLOW,
+        ord("$"): curses.COLOR_BLUE,
+        ord("%"): curses.COLOR_MAGENTA,
+        ord("^"): curses.COLOR_CYAN,
+        ord("&"): curses.COLOR_WHITE,
+    }
+
+    RAINBOW_COLORS = [
+        curses.COLOR_GREEN,
+        curses.COLOR_BLUE,
+        curses.COLOR_BLACK,
+        curses.COLOR_YELLOW,
+        curses.COLOR_CYAN,
+        curses.COLOR_MAGENTA,
+    ]
+
+    def __init__(self):
+        self.matrix = None
+        self.length = None
+        self.spaces = None
+        self.updates = None
+        self.lines = 0
+        self.cols = 0
+        self.signal_status = 0
+
+        # Options
+        self.screensaver = False
+        self.asynch = False
+        self.bold = 0
+        self.oldstyle = False
+        self.update = 4
+        self.mcolor = curses.COLOR_GREEN
+        self.rainbow = False
+        self.lambda_mode = False
+        self.classic = False
+        self.changes = False
+        self.lock = False
+        self.msg = ""
+        self.pause = False
+        self.num_colors = 8
+
+        # Window title animation
+        self.title_buf = []
+        self.title_width = 30
+        self.title_offset = 0
+
+        # Character range
+        self.randmin = 33
+        self.randnum = 90  # highnum - randmin
+
+    def parse_args(self):
+        parser = argparse.ArgumentParser(
+            description="CMatrix - Matrix screensaver for your terminal",
+            add_help=False,
+        )
+        parser.add_argument("-a", action="store_true", help="Asynchronous scroll")
+        parser.add_argument("-b", action="store_true", help="Bold characters on")
+        parser.add_argument(
+            "-B", action="store_true", help="All bold characters (overrides -b)"
+        )
+        parser.add_argument(
+            "-c",
+            action="store_true",
+            help="Use Japanese characters as seen in the original matrix",
+        )
+        parser.add_argument(
+            "-L",
+            action="store_true",
+            help="Lock mode (can be closed from another terminal)",
+        )
+        parser.add_argument("-o", action="store_true", help="Use old-style scrolling")
+        parser.add_argument("-h", action="store_true", help="Print usage and exit")
+        parser.add_argument(
+            "-n",
+            action="store_true",
+            help="No bold characters (overrides -b and -B)",
+        )
+        parser.add_argument(
+            "-s", action="store_true", help="Screensaver mode, exits on first keystroke"
+        )
+        parser.add_argument(
+            "-V", action="store_true", help="Print version information and exit"
+        )
+        parser.add_argument(
+            "-M", metavar="message", help="Prints message in center of screen"
+        )
+        parser.add_argument(
+            "-u",
+            type=int,
+            default=4,
+            metavar="delay",
+            help="Screen update delay (0-10, default 4)",
+        )
+        parser.add_argument(
+            "-C",
+            metavar="color",
+            help="Color: green, red, blue, white, yellow, cyan, magenta, black, random, or 0-255",
+        )
+        parser.add_argument("-r", action="store_true", help="Rainbow mode")
+        parser.add_argument("-m", action="store_true", help="Lambda mode")
+        parser.add_argument(
+            "-k", action="store_true", help="Characters change while scrolling"
+        )
+
+        args = parser.parse_args()
+
+        if args.h:
+            parser.print_help()
+            sys.exit(0)
+
+        if args.V:
+            print(f"CMatrix version {self.VERSION} (Python port)")
+            print("Web: https://github.com/abishekvashok/cmatrix")
+            sys.exit(0)
+
+        self.screensaver = args.s
+        self.asynch = args.a
+        self.oldstyle = args.o
+        self.update = args.u
+        self.rainbow = args.r
+        self.lambda_mode = args.m
+        self.classic = args.c
+        self.changes = args.k
+        self.lock = args.L
+        self.pause = False
+
+        if args.B:
+            self.bold = 2
+        elif args.b:
+            self.bold = 1
+        if args.n:
+            self.bold = -1
+
+        if args.C:
+            color_name = args.C.lower()
+            if color_name == "random":
+                self.mcolor = None  # resolved after curses init
+            elif color_name.isdigit():
+                self.mcolor = int(color_name)
+            elif color_name in self.COLOR_MAP:
+                self.mcolor = self.COLOR_MAP[color_name]
+            else:
+                print(
+                    f"Invalid color '{args.C}'. Valid colors: "
+                    + ", ".join(list(self.COLOR_MAP.keys()) + ["random", "0-255"])
+                )
+                sys.exit(1)
+        else:
+            self.mcolor = None  # resolved after curses init
+
+        if args.L:
+            self.lock = True
+            if not args.M:
+                self.msg = "Computer locked."
+
+        if args.M:
+            self.msg = args.M
+
+        # Set up character ranges
+        if self.classic:
+            self.randmin = 0xFF66
+            highnum = 0xFF9D
+        else:
+            self.randmin = 33
+            highnum = 123
+        self.randnum = highnum - self.randmin
+
+    def var_init(self):
+        self.lines = curses.LINES
+        self.cols = curses.COLS
+
+        self.matrix = [
+            [CMatrixCell() for _ in range(self.cols)] for _ in range(self.lines + 1)
+        ]
+        self.length = [0] * self.cols
+        self.spaces = [0] * self.cols
+        self.updates = [0] * self.cols
+
+        for i in range(self.lines + 1):
+            for j in range(0, self.cols, 2):
+                self.matrix[i][j].val = -1
+
+        for j in range(0, self.cols, 2):
+            self.spaces[j] = random.randint(1, self.lines)
+            self.length[j] = random.randint(3, max(3, self.lines - 3))
+            self.matrix[1][j].val = ord(" ")
+            self.updates[j] = random.randint(1, 3)
+
+    def color_pair_for(self, color):
+        """Return the curses color pair number for a given color index."""
+        # Pair 0 is reserved (default), so shift: color N -> pair N+1
+        return color + 1
+
+    def init_colors(self, stdscr):
+        if curses.has_colors():
+            curses.start_color()
+            try:
+                curses.use_default_colors()
+                bg = -1
+            except curses.error:
+                bg = curses.COLOR_BLACK
+
+            self.num_colors = curses.COLORS
+            max_pairs = curses.COLOR_PAIRS
+            # Init a pair for every available color (up to pair limit)
+            for color in range(min(self.num_colors, max_pairs - 1)):
+                curses.init_pair(self.color_pair_for(color), color, bg)
+
+    def handle_signal(self, signum, frame):
+        self.signal_status = signum
+
+    def resize_screen(self, stdscr):
+        curses.update_lines_cols()
+        self.lines = curses.LINES
+        self.cols = curses.COLS
+        if self.lines < 10:
+            self.lines = 10
+        if self.cols < 10:
+            self.cols = 10
+        stdscr.clear()
+        stdscr.refresh()
+        try:
+            curses.resizeterm(self.lines, self.cols)
+        except curses.error:
+            pass
+        self.var_init()
+
+    def addch_safe(self, stdscr, row, col, ch, attr=0):
+        """Add a character, ignoring errors from writing to bottom-right corner."""
+        try:
+            stdscr.addch(row, col, ch, attr)
+        except curses.error:
+            pass
+
+    def addstr_safe(self, stdscr, row, col, s, attr=0):
+        """Add a string, ignoring errors from writing to bottom-right corner."""
+        try:
+            stdscr.addstr(row, col, s, attr)
+        except curses.error:
+            pass
+
+    def run(self, stdscr):
+        # Terminal setup
+        curses.noecho()
+        curses.cbreak()
+        stdscr.timeout(0)
+        stdscr.leaveok(True)
+        curses.curs_set(0)
+        stdscr.keypad(True)
+
+        signal.signal(signal.SIGINT, self.handle_signal)
+        signal.signal(signal.SIGWINCH, self.handle_signal)
+        try:
+            signal.signal(signal.SIGQUIT, self.handle_signal)
+            signal.signal(signal.SIGTSTP, self.handle_signal)
+        except AttributeError:
+            pass
+
+        self.init_colors(stdscr)
+        if self.mcolor is None:
+            self.mcolor = random.randint(0, self.num_colors - 1)
+        elif self.mcolor >= self.num_colors:
+            self.mcolor = self.mcolor % self.num_colors
+        self.var_init()
+        self._init_title_buf()
+
+        count = 0
+
+        while True:
+            # Check signals
+            if self.signal_status in (signal.SIGINT,):
+                if not self.lock:
+                    return
+            try:
+                if self.signal_status == signal.SIGQUIT:
+                    if not self.lock:
+                        return
+                if self.signal_status == signal.SIGTSTP:
+                    if not self.lock:
+                        return
+            except AttributeError:
+                pass
+            if self.signal_status == signal.SIGWINCH:
+                self.resize_screen(stdscr)
+                self.signal_status = 0
+
+            count += 1
+            if count > 4:
+                count = 1
+
+            # Handle keyboard input
+            keypress = stdscr.getch()
+            if keypress != -1:
+                if self.screensaver:
+                    return
+                elif keypress == ord("q"):
+                    if not self.lock:
+                        return
+                elif keypress == ord("a"):
+                    self.asynch = not self.asynch
+                elif keypress == ord("b"):
+                    self.bold = 1
+                elif keypress == ord("B"):
+                    self.bold = 2
+                elif keypress == ord("L"):
+                    self.lock = True
+                elif keypress == ord("n"):
+                    self.bold = 0
+                elif ord("0") <= keypress <= ord("9"):
+                    self.update = keypress - ord("0")
+                elif keypress in self.KEY_COLORS:
+                    self.mcolor = self.KEY_COLORS[keypress]
+                    self.rainbow = False
+                elif keypress == ord("r"):
+                    self.rainbow = True
+                elif keypress == ord("m"):
+                    self.lambda_mode = not self.lambda_mode
+                elif keypress in (ord("p"), ord("P")):
+                    self.pause = not self.pause
+
+            # Update and render columns
+            for j in range(0, self.cols - 1, 2):
+                if (count > self.updates[j] or not self.asynch) and not self.pause:
+                    if self.oldstyle:
+                        self._update_oldstyle(j)
+                    else:
+                        self._update_newstyle(j)
+
+                # Render column
+                if self.oldstyle:
+                    y_start, y_end = 0, self.lines - 1
+                else:
+                    y_start, y_end = 1, self.lines
+
+                for i in range(y_start, y_end + 1):
+                    row = i - y_start
+                    if row >= curses.LINES or j >= curses.COLS:
+                        continue
+
+                    cell = self.matrix[i][j]
+
+                    if cell.val == 0 or (cell.is_head and not self.rainbow):
+                        # Head character - white
+                        attr = curses.color_pair(self.color_pair_for(curses.COLOR_WHITE))
+                        if self.bold:
+                            attr |= curses.A_BOLD
+                        if cell.val == 0:
+                            self.addch_safe(stdscr, row, j, ord("&"), attr)
+                        elif cell.val == -1:
+                            self.addch_safe(stdscr, row, j, ord(" "), attr)
+                        else:
+                            self._put_char(stdscr, row, j, cell.val, attr)
+                    else:
+                        # Body character
+                        color = self.mcolor
+                        if self.rainbow:
+                            color = random.randint(0, self.num_colors - 1)
+
+                        attr = curses.color_pair(self.color_pair_for(color))
+
+                        if cell.val == 1:
+                            if self.bold:
+                                attr |= curses.A_BOLD
+                            self.addch_safe(stdscr, row, j, ord("|"), attr)
+                        elif cell.val == -1:
+                            self.addch_safe(stdscr, row, j, ord(" "), attr)
+                        elif cell.val == ord(" "):
+                            self.addch_safe(stdscr, row, j, ord(" "), attr)
+                        else:
+                            if self.bold == 2 or (
+                                self.bold == 1 and cell.val % 2 == 0
+                            ):
+                                attr |= curses.A_BOLD
+                            if self.lambda_mode:
+                                self.addstr_safe(stdscr, row, j, "λ", attr)
+                            else:
+                                self._put_char(stdscr, row, j, cell.val, attr)
+
+            # Render centered message
+            if self.msg:
+                msg_x = self.lines // 2
+                msg_y = self.cols // 2 - len(self.msg) // 2
+                if 0 < msg_x < curses.LINES - 1 and msg_y > 1:
+                    # Space above
+                    self.addstr_safe(
+                        stdscr, msg_x - 1, msg_y - 2, " " * (len(self.msg) + 4)
+                    )
+                    # Message line
+                    self.addstr_safe(
+                        stdscr, msg_x, msg_y - 2, "  " + self.msg + "  "
+                    )
+                    # Space below
+                    self.addstr_safe(
+                        stdscr, msg_x + 1, msg_y - 2, " " * (len(self.msg) + 4)
+                    )
+
+            self._update_title()
+            stdscr.refresh()
+            curses.napms(self.update * 10)
+
+    def _init_title_buf(self):
+        """Initialize the title buffer with random matrix characters."""
+        self.title_buf = [
+            chr(random.randint(0, self.randnum - 1) + self.randmin)
+            for _ in range(self.title_width * 2)
+        ]
+        self.title_offset = 0
+
+    def _update_title(self):
+        """Scroll the window title with a matrix character effect."""
+        # Replace a random character to keep it lively
+        idx = random.randint(0, len(self.title_buf) - 1)
+        self.title_buf[idx] = chr(
+            random.randint(0, self.randnum - 1) + self.randmin
+        )
+        # Build the visible window from the circular buffer
+        visible = []
+        for i in range(self.title_width):
+            visible.append(self.title_buf[(self.title_offset + i) % len(self.title_buf)])
+        self.title_offset = (self.title_offset + 1) % len(self.title_buf)
+        title = "".join(visible)
+        # Set terminal/tmux window title
+        if os.environ.get("TMUX"):
+            sys.stdout.write(f"\033k{title}\033\\")
+        else:
+            sys.stdout.write(f"\033]0;{title}\007")
+        sys.stdout.flush()
+
+    def _restore_title(self):
+        """Restore the terminal window title."""
+        if os.environ.get("TMUX"):
+            sys.stdout.write("\033k\033\\")
+        else:
+            sys.stdout.write("\033]0;\007")
+        sys.stdout.flush()
+
+    def _put_char(self, stdscr, row, col, val, attr):
+        """Render a character value, handling Unicode."""
+        try:
+            ch = chr(val)
+            stdscr.addstr(row, col, ch, attr)
+        except (curses.error, ValueError, OverflowError):
+            pass
+
+    def _update_oldstyle(self, j):
+        """Old-style scrolling: shift everything down, new char at top."""
+        for i in range(self.lines - 1, 0, -1):
+            self.matrix[i][j].val = self.matrix[i - 1][j].val
+
+        rand_val = random.randint(0, self.randnum + 7) + self.randmin
+
+        if self.matrix[1][j].val == 0:
+            self.matrix[0][j].val = 1
+        elif self.matrix[1][j].val == ord(" ") or self.matrix[1][j].val == -1:
+            if self.spaces[j] > 0:
+                self.matrix[0][j].val = ord(" ")
+                self.spaces[j] -= 1
+            else:
+                if random.randint(0, 2) == 1:
+                    self.matrix[0][j].val = 0
+                else:
+                    self.matrix[0][j].val = random.randint(0, self.randnum - 1) + self.randmin
+                self.spaces[j] = random.randint(1, self.lines)
+        elif rand_val > self.randmin + self.randnum and self.matrix[1][j].val != 1:
+            self.matrix[0][j].val = ord(" ")
+        else:
+            self.matrix[0][j].val = random.randint(0, self.randnum - 1) + self.randmin
+
+    def _update_newstyle(self, j):
+        """New-style scrolling (default): grow streams downward."""
+        if (
+            self.matrix[0][j].val == -1
+            and self.matrix[1][j].val == ord(" ")
+            and self.spaces[j] > 0
+        ):
+            self.spaces[j] -= 1
+        elif self.matrix[0][j].val == -1 and self.matrix[1][j].val == ord(" "):
+            self.length[j] = random.randint(3, max(3, self.lines - 3))
+            self.matrix[0][j].val = random.randint(0, self.randnum - 1) + self.randmin
+            self.spaces[j] = random.randint(1, self.lines)
+
+        i = 0
+        firstcoldone = False
+        while i <= self.lines:
+            # Skip over spaces
+            while i <= self.lines and (
+                self.matrix[i][j].val == ord(" ") or self.matrix[i][j].val == -1
+            ):
+                i += 1
+
+            if i > self.lines:
+                break
+
+            # Go to the head of this column segment
+            z = i
+            y = 0
+            while i <= self.lines and (
+                self.matrix[i][j].val != ord(" ") and self.matrix[i][j].val != -1
+            ):
+                self.matrix[i][j].is_head = False
+                if self.changes:
+                    if random.randint(0, 7) == 0:
+                        self.matrix[i][j].val = (
+                            random.randint(0, self.randnum - 1) + self.randmin
+                        )
+                i += 1
+                y += 1
+
+            if i > self.lines:
+                self.matrix[z][j].val = ord(" ")
+                continue
+
+            self.matrix[i][j].val = random.randint(0, self.randnum - 1) + self.randmin
+            self.matrix[i][j].is_head = True
+
+            if y > self.length[j] or firstcoldone:
+                self.matrix[z][j].val = ord(" ")
+                self.matrix[0][j].val = -1
+
+            firstcoldone = True
+            i += 1
+
+
+def main():
+    locale.setlocale(locale.LC_ALL, "")
+
+    app = CMatrix()
+    app.parse_args()
+    try:
+        curses.wrapper(app.run)
+    finally:
+        app._restore_title()
+
+
+if __name__ == "__main__":
+    main()
