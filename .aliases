@@ -9,14 +9,12 @@ alias rtorrent='tmuxify rtorrent'
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias p='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST}'
-alias i='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST} -t weechat; printf "\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l"'
-alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
+alias i='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST} -t weechat; fixterm'
+alias speedtest='wget --output-document=/dev/null wget https://proof.ovh.net/files/10Gb.dat'
 alias scan-macs='sudo nmap -sU -p 161 -T4 -d -v -n -Pn --script snmp-interfaces'
 
 # dev aliases
-alias tf='tofu'
-alias tg='terragrunt run --non-interactive --all --'
-alias tgp='terragrunt plan --non-interactive --all | grep -v "\(Reading\|Refreshing state\)\(\\.\)\{3\}\|Read complete after"'
+alias fixterm="printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l'; stty sane"
 alias kc='kubectl config current-context'
 alias gctoken='tok=`gcloud auth print-access-token`; if command -v pbcopy >/dev/null; then echo "$tok" | tee /dev/tty | pbcopy; else echo $tok; fi'
 alias aws-sso='aws sso login --sso-session $(awk '\''match($0,/\[sso-session .*\]/) {print substr($0,RSTART+13,RLENGTH-14)}'\'' ~/.aws/config)'
@@ -24,6 +22,9 @@ alias docker-clean='sudo docker images -q -a | xargs --no-run-if-empty sudo dock
 alias gensslcert='openssl req -newkey rsa:4096 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem'
 alias pp-nlbr='pbpaste | sed -e $'\''s/\{lnbr\}/\\\n/g'\'' -e '\''s/\(^\|\n\) \+/\1    /g'\'''
 alias rand-pwd='LC_ALL=C tr -cd a-zA-Z0-9 < /dev/urandom | fold -w 32 | head -n 1'
+alias tf='tofu'
+alias tg='terragrunt run --non-interactive --all --'
+alias tgp='terragrunt plan --non-interactive --all | grep -v "\(Reading\|Refreshing state\)\(\\.\)\{3\}\|Read complete after"'
 
 # osx aliases
 alias fixspotlight='sudo mdutil -i off / && sudo mdutil -i on /'
