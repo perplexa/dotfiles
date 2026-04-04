@@ -51,5 +51,5 @@ for kube_aliases in ~/.kube/aliases-*(N); do source "${kube_aliases}"; done
 
 # show pmatrix on new tmux shells
 if [[ -n "$TMUX" && -n "$MATRIX_ENABLED" ]]; then
-  pmatrix -s
+  pmatrix -s; tput reset
 fi
