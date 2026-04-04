@@ -9,7 +9,7 @@ alias rtorrent='tmuxify rtorrent'
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\([a-fA-F0-9:\.]\+\)' | awk '{sub(/inet6? (addr:)? ?/, \"\"); print}'"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias p='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST}'
-alias i='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST} -t weechat'
+alias i='ssh -p ${HOME_SERVER_PORT} ${HOME_SERVER_HOST} -t weechat; printf "\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l"'
 alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
 alias scan-macs='sudo nmap -sU -p 161 -T4 -d -v -n -Pn --script snmp-interfaces'
 
