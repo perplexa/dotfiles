@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+osascript "$(dirname "$0")/../osa/screen.applescript"
