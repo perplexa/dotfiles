@@ -11,27 +11,31 @@
 typeset -r _CY=$'\e[38;2;250;189;47m'   # yellow
 typeset -r _CW=$'\e[38;2;235;219;178m'  # fg
 typeset -r _CD=$'\e[38;2;146;131;116m'  # grey
-typeset -r _BB=$'\e[1m'                  # bold
-typeset -r _RR=$'\e[0m'                  # reset
+typeset -r _BB=$'\e[1m'                 # bold
+typeset -r _RR=$'\e[0m'                 # reset
 
 _banner() {
-  local -a files
-  files=(~/dotfiles/ansi/*(N.))
-  (( ${#files} )) || return
-  local pick=${files[RANDOM % ${#files} + 1]}
-
-  # render ansi art inside a detached 80-column tmux pane, then capture output
-  local tmp=$(mktemp)
-  iconv -f 437 -t UTF-8 "$pick" > "$tmp" 2>/dev/null || { rm -f "$tmp"; return; }
-  local sess="_render_$$" chan="_done_$$"
-  tmux new-session -d -x 80 -y 256 -s "$sess" \
-    "cat '$tmp'; tmux wait-for -S '$chan'; sleep 999" 2>/dev/null || { rm -f "$tmp"; return; }
-  tmux wait-for "$chan" 2>/dev/null
-  local rows=$(tmux display-message -t "$sess" -p '#{cursor_y}')
-  tmux capture-pane -t "$sess" -p -e -E "$rows" 2>/dev/null
-  tmux kill-session -t "$sess" 2>/dev/null
-  rm -f "$tmp"
-  printf '\e[0m\n'
+  if type ansimotd > /dev/null; then
+    # we got ansimotd
+    ansimotd
+  else
+    # fallback to builtins, render ansi art inside a detached 80-column tmux pane, then capture output
+    local -a files
+    files=(~/.config/ansimotd/art/**/*(N.))
+    (( ${#files} )) || return
+    local pick=${files[RANDOM % ${#files} + 1]}
+    local tmp=$(mktemp)
+    iconv -f 437 -t UTF-8 "$pick" > "$tmp" 2>/dev/null || { rm -f "$tmp"; return; }
+    local sess="_render_$$" chan="_done_$$"
+    tmux new-session -d -x 80 -y 256 -s "$sess" \
+      "cat '$tmp'; tmux wait-for -S '$chan'; sleep 999" 2>/dev/null || { rm -f "$tmp"; return; }
+    tmux wait-for "$chan" 2>/dev/null
+    local rows=$(tmux display-message -t "$sess" -p '#{cursor_y}')
+    tmux capture-pane -t "$sess" -p -e -E "$rows" 2>/dev/null
+    tmux kill-session -t "$sess" 2>/dev/null
+    rm -f "$tmp"
+    printf '\e[0m\n'
+  fi
 }
 
 _next_name() {
@@ -65,6 +69,12 @@ _pick_session() {
 
   printf '\e[?25l'
   trap 'printf "\e[?25h"' EXIT
+
+  # reserve vertical space so the terminal doesn't scroll during redraws
+  # (scrolling invalidates the saved cursor position)
+  local i
+  for (( i=0; i<total; i++ )); do printf '\n'; done
+  printf "\e[${total}A"
 
   printf '\e7'
 

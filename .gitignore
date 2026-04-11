@@ -7,10 +7,3 @@
 
 # backups
 *~
-
-# python
-*.pyc
-__pycache__
-
-# non-shared content
-ansi/*
