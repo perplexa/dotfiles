@@ -18,6 +18,7 @@ _banner() {
   if type ansimotd > /dev/null; then
     # we got ansimotd
     ansimotd
+    echo
   else
     # fallback to builtins, render ansi art inside a detached 80-column tmux pane, then capture output
     local -a files

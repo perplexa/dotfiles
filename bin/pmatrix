@@ -214,8 +214,10 @@ class CMatrix:
                     + ", ".join(list(self.COLOR_MAP.keys()) + ["random", "0-255"])
                 )
                 sys.exit(1)
-        else:
+        elif os.environ.get("MATRIX_RANDOM_COLOR"):
             self.mcolor = None  # resolved after curses init
+        else:
+            self.mcolor = curses.COLOR_GREEN
 
         if args.L:
             self.lock = True

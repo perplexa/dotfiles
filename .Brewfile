@@ -56,6 +56,7 @@ brew "zbar"                      # Suite of barcodes-reading tools
 
 # crypto
 brew "gnupg"                     # GNU Privacy Guard (OpenPGP)
+brew "pam-reattach"              # PAM module for reattaching to the user's GUI (Aqua) session
 cask "keepassxc"                 # Password manager app
 
 # productivity
