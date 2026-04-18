@@ -246,6 +246,9 @@ class CMatrix:
         self.length = [0] * self.cols
         self.spaces = [0] * self.cols
         self.updates = [0] * self.cols
+        # Secondary bright marker per column, running at 2x rain speed.
+        # Randomized so columns aren't in lockstep.
+        self.bright_pos = [random.randint(0, self.lines - 1) for _ in range(self.cols)]
 
         for i in range(self.lines + 1):
             for j in range(0, self.cols, 2):
@@ -397,6 +400,7 @@ class CMatrix:
                         self._update_oldstyle(j)
                     else:
                         self._update_newstyle(j)
+                    self.bright_pos[j] = (self.bright_pos[j] + 2) % self.lines
 
                 # Render column
                 if self.oldstyle:
@@ -428,10 +432,16 @@ class CMatrix:
                         if self.rainbow:
                             color = random.randint(0, self.num_colors - 1)
 
-                        attr = curses.color_pair(self.color_pair_for(color))
+                        bright = row == self.bright_pos[j]
+                        if bright and color < 8 and self.num_colors >= 16:
+                            render_color = color + 8
+                        else:
+                            render_color = color
+
+                        attr = curses.color_pair(self.color_pair_for(render_color))
 
                         if cell.val == 1:
-                            if self.bold:
+                            if self.bold or bright:
                                 attr |= curses.A_BOLD
                             self.addch_safe(stdscr, row, j, ord("|"), attr)
                         elif cell.val == -1:
@@ -442,6 +452,8 @@ class CMatrix:
                             if self.bold == 2 or (
                                 self.bold == 1 and cell.val % 2 == 0
                             ):
+                                attr |= curses.A_BOLD
+                            if bright:
                                 attr |= curses.A_BOLD
                             if self.lambda_mode:
                                 self.addstr_safe(stdscr, row, j, "λ", attr)
