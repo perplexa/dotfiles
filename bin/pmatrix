@@ -163,7 +163,7 @@ class CMatrix:
         parser.add_argument(
             "-C",
             metavar="color",
-            help="Color: green, red, blue, white, yellow, cyan, magenta, black, random, or 0-255",
+            help="Color: green, red, blue, white, yellow, cyan, magenta, black, random, or 0-254",
         )
         parser.add_argument("-r", action="store_true", help="Rainbow mode")
         parser.add_argument("-m", action="store_true", help="Lambda mode")
@@ -211,7 +211,7 @@ class CMatrix:
             else:
                 print(
                     f"Invalid color '{args.C}'. Valid colors: "
-                    + ", ".join(list(self.COLOR_MAP.keys()) + ["random", "0-255"])
+                    + ", ".join(list(self.COLOR_MAP.keys()) + ["random", "0-254"])
                 )
                 sys.exit(1)
         elif os.environ.get("MATRIX_RANDOM_COLOR"):
@@ -274,7 +274,7 @@ class CMatrix:
             except curses.error:
                 bg = curses.COLOR_BLACK
 
-            self.num_colors = curses.COLORS
+            self.num_colors = curses.COLORS - 1
             max_pairs = curses.COLOR_PAIRS
             # Init a pair for every available color (up to pair limit)
             for color in range(min(self.num_colors, max_pairs - 1)):
