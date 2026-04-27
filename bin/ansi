@@ -1,6 +1,9 @@
 #!/bin/bash
 
-ans=(ascii/ansi/*/*.ans)
-fil=${ans[$(( $RANDOM % ${#ans[@]} + 1 ))]}
+shopt -s nullglob nocaseglob
+ans=(ascii/ansi/*/*/*.ans)
+fil=${ans[$(( RANDOM % ${#ans[@]} ))]}
+
+echo "$fil" >> ansi.log
 
 a2m "$fil"
