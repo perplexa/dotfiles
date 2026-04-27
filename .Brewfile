@@ -49,7 +49,7 @@ brew "kubernetes-cli"            # Kubernetes command-line interface
 brew "krew"                      # Package manager for kubectl plugins
 brew "pandoc"                    # Swiss-army knife of markup format conversion
 brew "podman"                    # Tool for managing OCI containers and pods
-brew "rust"                      # Safe, concurrent, practical language
+brew "rustup"                    # Rust toolchain installer
 brew "uv"                        # Extremely fast Python package installer and resolver, written in Rust
 brew "yq"                        # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "zbar"                      # Suite of barcodes-reading tools

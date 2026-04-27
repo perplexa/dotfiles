@@ -7,6 +7,7 @@ source ~/.exports
 source ~/.aliases
 source ~/.functions
 
+pathadd /opt/homebrew/opt/rustup/bin
 pathadd /opt/homebrew/bin
 pathadd /opt/homebrew/sbin
 pathadd /usr/local/opt/gnu-getopt/bin
