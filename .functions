@@ -115,10 +115,32 @@ screenify() {
 }
 
 # start a http server from a directory, optionally specifying the port
-server() {
-    local port="${1:-8000}"
-    sleep 1 && open "http://localhost:${port}/" &
-    python -c $'import SimpleHTTPServer;\nm = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nm[""] = "text/plain";\nfor k, v in m.items():\n\tm[k]=v+";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
+serve-http() {
+  local port="${1:-8000}"
+  sleep 1 && open "http://localhost:${port}/" &
+  python3 -c $'import sys, http.server;\nm = http.server.SimpleHTTPRequestHandler.extensions_map;\nm[""] = "text/plain";\nfor k, v in m.items():\n\tm[k] = v + ";charset=UTF-8";\nhttp.server.test(HandlerClass=http.server.SimpleHTTPRequestHandler, port=int(sys.argv[1]));' "$port"
+}
+
+smbshare() {
+  local SHARE="$1"
+  local SERVER="${2:-$SMB_SERVER}"
+  open "/Volumes/$SHARE" 2>/dev/null || (
+    open "smb://$SERVER/$SHARE" && \
+    [ "$(osascript -e 'tell application "System Events"
+  tell process "NetAuthAgent"
+    repeat 50 times
+      try
+        click button "Connect" of window 1
+        exit repeat
+      end try
+      delay 0.1
+    end repeat
+    delay 2
+    return (exists window 1)
+  end tell
+end tell')" = "true" ] && \
+    echo "If this did not work, make sure your terminal emulator is added in System Settings -> Privacy & Security -> Accessibility.\nIt may be necessary to remove and add the application again."
+  )
 }
 
 # shrink a file or directory
