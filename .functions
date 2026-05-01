@@ -78,6 +78,14 @@ md2html() {
   pandoc --from=markdown --to=html --output="$filename" "$1"
 }
 
+# get currently playing media with media-control
+now-playing() {
+  # osascript -e 'tell app "Spotify" to if (player state is playing) then "np: " & (get artist of current track) & " - " & (get name of current track) & " - " & (get id of current track)' | sed 's!spotify:track:\([0-z]*\)!https://open.spotify.com/track/\1!' | tee /dev/tty | pbcopy
+  local media="$(media-control get -h | jq -r '"\(.artist) - \(.title)"')"
+  local url="$(ddgr --unsafe --json --np -Cxn 1 "$media" | jq -r '.[].url')"
+  echo "np: $media - $url" | tee /dev/tty | pbcopy
+}
+
 # add more dirs to $PATH
 pathadd() {
   [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"
@@ -121,6 +129,7 @@ serve-http() {
   python3 -c $'import sys, http.server;\nm = http.server.SimpleHTTPRequestHandler.extensions_map;\nm[""] = "text/plain";\nfor k, v in m.items():\n\tm[k] = v + ";charset=UTF-8";\nhttp.server.test(HandlerClass=http.server.SimpleHTTPRequestHandler, port=int(sys.argv[1]));' "$port"
 }
 
+# open or connect to a smb share
 smbshare() {
   local SHARE="$1"
   local SERVER="${2:-$SMB_SERVER}"
@@ -146,11 +155,6 @@ end tell')" = "true" ] && \
 # shrink a file or directory
 shrink() {
   [ -n "$*" ] && tar --zstd -cvf "$1.tar.zst" "$@"
-}
-
-# get currently playing spotify track
-spotify() {
-  osascript -e 'tell app "Spotify" to if (player state is playing) then "np: " & (get artist of current track) & " - " & (get name of current track) & " - " & (get id of current track)' | sed 's!spotify:track:\([0-z]*\)!https://open.spotify.com/track/\1!' | tee /dev/tty | pbcopy
 }
 
 # creates or reattaches to a named tmux session based on the application name
