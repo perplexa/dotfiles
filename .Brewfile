@@ -23,6 +23,7 @@ cask "stats"                     # System monitor for the menu bar
 
 # media
 brew "ffmpeg"                    # Play, record, convert, and stream select audio and video codecs
+brew "media-control"             # Control and observe media playback from the command-line
 brew "spek"                      # Acoustic spectrum analyser
 brew "yt-dlp"                    # Feature-rich command-line audio/video downloader
 cask "foobar2000"                # Audio player
@@ -61,6 +62,7 @@ cask "keepassxc"                 # Password manager app
 
 # productivity
 brew "arthur-ficial/tap/apfel"   # On-device Apple FoundationModels CLI and OpenAI-compatible server
+brew "ddgr"                      # DuckDuckGo from the terminal
 brew "ctags"                     # Reimplementation of ctags(1)
 brew "tmux"                      # Terminal multiplexer
 brew "vim"                       # Vi 'workalike' with many additional features
