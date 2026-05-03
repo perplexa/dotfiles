@@ -122,6 +122,23 @@ screenify() {
   screen -dmSADRU $1 $@;
 }
 
+# ssh to https://www.thc.org/segfault/ in a subshell and automate the login sequence
+segfault() {
+  (
+    TMP=$(mktemp)
+    chmod 700 "$TMP"
+    printf '#!/bin/sh\necho segfault\n' > "$TMP"
+    STTY=$(stty -g)
+    trap 'stty "$STTY"; rm -f "$TMP"' EXIT INT TERM
+    stty raw -echo
+    { printf '\n'; sleep 65; printf '\n'; dd if=/dev/tty bs=1 2>/dev/null; } \
+      | SSH_ASKPASS="$TMP" SSH_ASKPASS_REQUIRE=force ssh -tt \
+          -o StrictHostKeyChecking=accept-new \
+          -o UserKnownHostsFile=/dev/null \
+          root@segfault.net
+  )
+}
+
 # start a http server from a directory, optionally specifying the port
 serve-http() {
   local port="${1:-8000}"
